@@ -13,10 +13,11 @@
         public string NewsStatusName { get; set; }   // Tên hiển thị (Pending/Approved/Rejected)
 
         public string CategoryName { get; set; }
+        public string ParentCategoryName { get; set; }
         public string CreatedByName { get; set; }
         public string? UpdatedByName { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
-        public List<string> TagNames { get; set; } = new();
+        public List<TagDTO> Tags { get; set; } = new();
     }
 }

@@ -31,6 +31,7 @@ CREATE TABLE NewsArticle (
     NewsArticleID INT PRIMARY KEY IDENTITY(1,1),
     NewsTitle NVARCHAR(200) NOT NULL,
     Headline NVARCHAR(500),
+    ImagePath NVARCHAR(255),
     CreatedDate DATETIME NOT NULL DEFAULT '2025-05-28 16:37:00 +07:00',
     NewsContent NVARCHAR(MAX),
     NewsSource NVARCHAR(100),
@@ -39,6 +40,7 @@ CREATE TABLE NewsArticle (
     CreatedByID INT,
     UpdatedByID INT,
     ModifiedDate DATETIME,
+    ViewCount INT DEFAULT 0,
     FOREIGN KEY (CategoryID) REFERENCES Category(CategoryID),
     FOREIGN KEY (CreatedByID) REFERENCES SystemAccount(AccountID),
     FOREIGN KEY (UpdatedByID) REFERENCES SystemAccount(AccountID)
@@ -71,8 +73,21 @@ CREATE TABLE Comment (
     CommentText NVARCHAR(1000) NOT NULL,
     CreatedDate DATETIME NOT NULL DEFAULT '2025-05-28 16:37:00 +07:00',
     IsActive BIT NOT NULL DEFAULT 1 CHECK (IsActive IN (0, 1)),
+    ParentCommentID INT NULL,
+    CONSTRAINT FK_Comment_Parent FOREIGN KEY (ParentCommentID) REFERENCES Comment(CommentID);
     FOREIGN KEY (NewsArticleID) REFERENCES NewsArticle(NewsArticleID),
     FOREIGN KEY (CreatedByID) REFERENCES SystemAccount(AccountID)
+);
+GO
+
+CREATE TABLE NewsLike (
+    LikeID INT PRIMARY KEY IDENTITY,
+    NewsArticleID INT NOT NULL,
+    LikedByID INT NOT NULL,
+    LikedDate DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Like_News FOREIGN KEY (NewsArticleID) REFERENCES NewsArticle(NewsArticleID),
+    CONSTRAINT FK_Like_User FOREIGN KEY (LikedByID) REFERENCES SystemAccount(AccountID),
+    CONSTRAINT UQ_News_Like UNIQUE (NewsArticleID, LikedByID) -- Mỗi người chỉ like 1 lần
 );
 GO
 -- chen du lieu vao 

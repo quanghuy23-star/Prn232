@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
+using Microsoft.EntityFrameworkCore;
 using ProjectPRN232.DTO;
 using ProjectPRN232.Models;
 using ProjectPRN232.Service;
@@ -15,11 +16,13 @@ namespace ProjectPRN232.Controllers
     {
         private readonly INewsArticleRepository _repo;
         private readonly IMapper _mapper;
+        private readonly NewsDbContext _context;
 
-        public NewsController(INewsArticleRepository repo, IMapper mapper)
+        public NewsController(INewsArticleRepository repo, IMapper mapper, NewsDbContext context)
         {
             _repo = repo;
             _mapper = mapper;
+            _context = context;
         }
 
         [HttpGet]
@@ -43,23 +46,42 @@ namespace ProjectPRN232.Controllers
 
         [HttpPost("create")]
         [Authorize(Roles = "Writer")]
-        public async Task<ActionResult> Create([FromBody] NewsArticleCreateDTO dto)
+        public async Task<ActionResult<NewsArticleDTO>> Create([FromBody] NewsArticleCreateDTO dto)
         {
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
             var article = _mapper.Map<NewsArticle>(dto);
-            // CHECK LOG
-            Console.WriteLine("Mapped NewsStatus: " + article.NewsStatus);
-
-           // article.NewsStatus = NewsStatus.Pending; // Dù đã ignore AutoMapper thì vẫn nên đặt thủ công
-
             article.CreatedDate = DateTime.Now;
             article.NewsStatus = NewsStatus.Pending;
-            
             article.CreatedById = userId;
 
+            // Gắn tags từ danh sách TagIds
+            if (dto.TagIds != null && dto.TagIds.Any())
+            {
+                var tags = await _context.Tags
+                    .Where(t => dto.TagIds.Contains(t.TagId))
+                    .ToListAsync();
+
+                article.Tags = tags;
+            }
+
             await _repo.AddAsync(article);
-            return CreatedAtAction(nameof(Get), new { id = article.NewsArticleId }, article);
+
+            // Truy vấn lại để có đầy đủ dữ liệu navigation
+            var created = await _context.NewsArticles
+                .Include(n => n.Category)
+                .ThenInclude(c => c.ParentCategory)
+                .Include(n => n.CreatedBy)
+                .Include(n => n.UpdatedBy)
+                .Include(n => n.Tags)
+                .FirstOrDefaultAsync(n => n.NewsArticleId == article.NewsArticleId);
+
+            var result = _mapper.Map<NewsArticleDTO>(created);
+
+            return CreatedAtAction(nameof(Get), new { id = result.NewsArticleId }, result);
         }
+
+
 
         [HttpGet("my-articles")]
         [Authorize(Roles = "Writer")]

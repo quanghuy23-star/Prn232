@@ -11,14 +11,15 @@ namespace ProjectPRN232.Mapper
             CreateMap<NewsArticle, NewsArticleDTO>()
                 .ForMember(dest => dest.NewsStatusName, opt => opt.MapFrom(src => src.NewsStatus.ToString()))
     .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category.CategoryName))
+    .ForMember(dest => dest.ParentCategoryName, opt => opt.MapFrom(src => src.Category.ParentCategory.CategoryName))
     .ForMember(dest => dest.CreatedByName, opt => opt.MapFrom(src => src.CreatedBy.AccountName))
     .ForMember(dest => dest.UpdatedByName, opt => opt.MapFrom(src => src.UpdatedBy.AccountName))
-                .ForMember(dest => dest.TagNames, opt => opt.MapFrom(src => src.Tags.Select(t=>t.TagName)));
+                 .ForMember(dest => dest.Tags, opt => opt.MapFrom(src => src.Tags));
 
             CreateMap<NewsArticleCreateDTO, NewsArticle>()
      .ForMember(dest => dest.NewsStatus, opt => opt.Ignore());
 
-
+            CreateMap<Tag, TagDTO>();
 
             CreateMap<NewsArticleUpdateDTO, NewsArticle>();
 
