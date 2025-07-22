@@ -8,12 +8,15 @@
         public DateTime CreatedDate { get; set; }
         public string NewsContent { get; set; }
         public string NewsSource { get; set; }
-        public string NewsStatus { get; set; }
+
+        public int NewsStatus { get; set; }          // Trạng thái bài viết (0/1/2)
+        public string NewsStatusName { get; set; }   // Tên hiển thị (Pending/Approved/Rejected)
+
         public string CategoryName { get; set; }
         public string CreatedByName { get; set; }
         public string? UpdatedByName { get; set; }
         public DateTime? ModifiedDate { get; set; }
-        //
-        public List<string> TagNames { get; set; }
+
+        public List<string> TagNames { get; set; } = new();
     }
 }

@@ -89,7 +89,7 @@ public partial class NewsDbContext : DbContext
             entity.Property(e => e.Headline).HasMaxLength(500);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.NewsSource).HasMaxLength(100);
-            entity.Property(e => e.NewsStatus).HasDefaultValue(true);
+            entity.Property(n => n.NewsStatus).HasConversion<int>();
             entity.Property(e => e.NewsTitle).HasMaxLength(200);
             entity.Property(e => e.UpdatedById).HasColumnName("UpdatedByID");
 

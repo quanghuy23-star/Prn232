@@ -35,7 +35,7 @@ CREATE TABLE NewsArticle (
     NewsContent NVARCHAR(MAX),
     NewsSource NVARCHAR(100),
     CategoryID INT NOT NULL, -- Một NewsArticle chỉ thuộc một Category
-    NewsStatus BIT NOT NULL DEFAULT 1 CHECK (NewsStatus IN (0, 1)), -- 1: active, 0: inactive
+    NewsStatus INT NOT NULL, 
     CreatedByID INT,
     UpdatedByID INT,
     ModifiedDate DATETIME,

@@ -19,7 +19,7 @@ public partial class NewsArticle
 
     public int CategoryId { get; set; }
 
-    public bool NewsStatus { get; set; }
+    public NewsStatus NewsStatus { get; set; }
 
     public int? CreatedById { get; set; }
 

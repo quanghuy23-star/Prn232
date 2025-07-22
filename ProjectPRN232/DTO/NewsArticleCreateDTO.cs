@@ -7,5 +7,8 @@
         public string NewsContent { get; set; }
         public string NewsSource { get; set; }
         public int CategoryId { get; set; }
+
+        // Tùy chọn nếu Staff/Admin tạo, mặc định là Pending nếu Writer
+      //  public int NewsStatus { get; set; }
     }
 }
