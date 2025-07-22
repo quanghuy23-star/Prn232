@@ -185,3 +185,4 @@ D:\FPT\Term8\PRN232\ProjectPRN232\ProjectPRN232\bin\Debug\net8.0\Microsoft.OData
 D:\FPT\Term8\PRN232\ProjectPRN232\ProjectPRN232\bin\Debug\net8.0\Microsoft.OData.Edm.dll
 D:\FPT\Term8\PRN232\ProjectPRN232\ProjectPRN232\bin\Debug\net8.0\Microsoft.OData.ModelBuilder.dll
 D:\FPT\Term8\PRN232\ProjectPRN232\ProjectPRN232\bin\Debug\net8.0\Microsoft.Spatial.dll
+D:\FPT\Term8\PRN232\ProjectPRN232\ProjectPRN232\obj\Debug\net8.0\ProjectPRN232.sourcelink.json

@@ -145,6 +145,92 @@ namespace ProjectPRN232.Controllers
 
             return Ok(_mapper.ProjectTo<NewsArticleDTO>(result));
         }
+        [HttpPatch("{id}/approve")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Approve(int id)
+        {
+            var article = await _repo.GetByIdAsync(id);
+            if (article == null) return NotFound();
+
+            article.NewsStatus = true;
+            article.UpdatedById = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            article.ModifiedDate = DateTime.Now;
+
+            await _repo.UpdateAsync(article);
+            return Ok("Article approved.");
+        }
+
+        [HttpPatch("{id}/reject")]
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> Reject(int id)
+        {
+            var article = await _repo.GetByIdAsync(id);
+            if (article == null) return NotFound();
+
+            article.NewsStatus = false;
+            article.UpdatedById = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            article.ModifiedDate = DateTime.Now;
+
+            await _repo.UpdateAsync(article);
+            return Ok("Article rejected.");
+        }
+        [HttpGet("filter")]
+        [Authorize]
+        public ActionResult<IEnumerable<NewsArticleDTO>> Filter(
+    [FromQuery] string? keyword,
+    [FromQuery] int? categoryId,
+    [FromQuery] bool? status,
+    [FromQuery] int page = 1,
+    [FromQuery] int pageSize = 10)
+        {
+            var query = _repo.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+                query = query.Where(x => x.NewsTitle.Contains(keyword));
+
+            if (categoryId.HasValue)
+                query = query.Where(x => x.CategoryId == categoryId);
+
+            if (status.HasValue)
+                query = query.Where(x => x.NewsStatus == status.Value);
+
+            var paged = query
+                .OrderByDescending(x => x.CreatedDate)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize);
+
+            return Ok(_mapper.ProjectTo<NewsArticleDTO>(paged));
+        }
+        [HttpGet("count")]
+        [Authorize]
+        public ActionResult<int> GetTotalCount(
+    [FromQuery] string? keyword,
+    [FromQuery] int? categoryId,
+    [FromQuery] bool? status)
+        {
+            var query = _repo.GetAll();
+
+            if (!string.IsNullOrWhiteSpace(keyword))
+                query = query.Where(x => x.NewsTitle.Contains(keyword));
+            if (categoryId.HasValue)
+                query = query.Where(x => x.CategoryId == categoryId);
+            if (status.HasValue)
+                query = query.Where(x => x.NewsStatus == status.Value);
+
+            return Ok(query.Count());
+        }
+        [HttpGet("by-date-range")]
+        [Authorize]
+        public ActionResult<IEnumerable<NewsArticleDTO>> GetByDateRange(DateTime from, DateTime to)
+        {
+            var result = _repo.GetAll()
+                .Where(x => x.CreatedDate >= from && x.CreatedDate <= to);
+
+            return Ok(_mapper.ProjectTo<NewsArticleDTO>(result));
+        }
+
+
+
 
     }
 
