@@ -11,12 +11,17 @@ public class SystemAccountRepository : ISystemAccountRepository
     {
         _context = context;
     }
-
+    public async Task<SystemAccount?> GetByIdAsync(int id)
+    {
+        return await _context.SystemAccounts
+            .FirstOrDefaultAsync(a => a.AccountId == id);
+    }
     public async Task<SystemAccount?> GetByEmailAsync(string email)
     {
         return await _context.SystemAccounts
             .FirstOrDefaultAsync(a => a.AccountEmail == email);
     }
+
 
     public async Task AddAccountAsync(SystemAccount account)
     {
@@ -35,6 +40,10 @@ public class SystemAccountRepository : ISystemAccountRepository
 
     public void Update(SystemAccount account)
     {
-        throw new NotImplementedException();
+        _context.SystemAccounts.Update(account);
+    }
+    public Task SaveChangesAsync()
+    {
+        return _context.SaveChangesAsync();
     }
 }

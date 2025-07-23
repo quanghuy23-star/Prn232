@@ -13,11 +13,13 @@ namespace ProjectPRN232.Controllers
     public class AdminController : ControllerBase
     {
         private readonly INewsArticleRepository _repo;
+        private readonly ISystemAccountRepository _accountRepo;
         private readonly IMapper _mapper;
 
-        public AdminController(INewsArticleRepository repo, IMapper mapper)
+        public AdminController(INewsArticleRepository repo, ISystemAccountRepository accountRepo, IMapper mapper)
         {
             _repo = repo;
+            _accountRepo = accountRepo;
             _mapper = mapper;
         }
 
@@ -84,6 +86,37 @@ namespace ProjectPRN232.Controllers
             await _repo.UpdateAsync(article);
             return Ok("Rejected.");
         }
+        //set-role
+        [HttpPut("set-role")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> SetUserRole([FromBody] SetRoleDTO dto)
+        {
+            var account = await _accountRepo.GetByIdAsync(dto.AccountId);
+
+            if (account == null)
+                return NotFound("Tài khoản không tồn tại.");
+
+            if (!Enum.IsDefined(typeof(Role), dto.Role))
+                return BadRequest("Vai trò không hợp lệ.");
+
+            var currentAdminId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            if (account.AccountId == currentAdminId)
+                return BadRequest("Không thể thay đổi vai trò của chính bạn.");
+            
+
+            account.AccountRole= dto.Role;
+            _accountRepo.Update(account);
+            await _accountRepo.SaveChangesAsync();
+
+            return Ok(new
+            {
+                Message = $"Đã cập nhật vai trò cho {account.AccountName} thành {(Role)dto.Role}"
+            });
+        }
+
+
+
+
     }
 
 }

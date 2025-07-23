@@ -80,6 +80,48 @@ namespace ProjectPRN232.Controllers
 
             return CreatedAtAction(nameof(Get), new { id = result.NewsArticleId }, result);
         }
+        [HttpPut("update/{id}")]
+        [Authorize(Roles = "Writer")]
+        public async Task<ActionResult> UpdateByWriter(int id, [FromBody] NewsArticleUpdateDTO dto)
+        {
+            var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+            var article = await _context.NewsArticles
+                .Include(n => n.Tags)
+                .FirstOrDefaultAsync(n => n.NewsArticleId == id);
+
+            if (article == null)
+                return NotFound("Bài viết không tồn tại.");
+
+            if (article.CreatedById != userId)
+                return StatusCode(StatusCodes.Status403Forbidden, "Bạn không có quyền sửa bài viết này.");
+            // Cập nhật nội dung
+            article.NewsTitle = dto.NewsTitle;
+            article.Headline = dto.Headline;
+            article.NewsContent = dto.NewsContent;
+            article.NewsSource = dto.NewsSource;
+            article.CategoryId = dto.CategoryId;
+            article.ImagePath = dto.ImagePath;
+            article.ModifiedDate = DateTime.Now;
+            article.UpdatedById = userId;
+            article.NewsStatus = NewsStatus.Pending; // reset về chờ duyệt
+
+            // Cập nhật Tag
+            if (dto.TagIds != null)
+            {
+                var tags = await _context.Tags
+                    .Where(t => dto.TagIds.Contains(t.TagId))
+                    .ToListAsync();
+
+                article.Tags = tags;
+            }
+
+
+            await _repo.UpdateAsync(article);
+
+            return Ok(new { Message = "Cập nhật bài viết thành công. Bài viết sẽ được duyệt lại." });
+        }
+
 
 
 

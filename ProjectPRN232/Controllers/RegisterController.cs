@@ -7,7 +7,7 @@ using ProjectPRN232.Service;
 
 namespace ProjectPRN232.Controllers
 {
-    [Route("api/admin/register")]
+    [Route("api/[controller]")]
     [ApiController]
     public class RegisterController : Controller
     {
@@ -21,9 +21,9 @@ namespace ProjectPRN232.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("create")]
         [Authorize(Roles = "Admin")]
-        public async Task<IActionResult> Register([FromBody] RegisterRequestDTO request)
+        public async Task<IActionResult> CreateAccountForAdmin([FromBody] RegisterRequestDTO request)
         {
             // Kiểm tra trùng email
             var existingAccount = await _repo.GetByEmailAsync(request.AccountEmail);
@@ -49,5 +49,30 @@ namespace ProjectPRN232.Controllers
 
             return Ok("Account created successfully.");
         }
+        [HttpPost]
+        [AllowAnonymous] // Nếu muốn mở cho tất cả người dùng (không cần login)
+        public async Task<IActionResult> Register([FromBody] RegisterRequestDTO request)
+        {
+            var existingAccount = await _repo.GetByEmailAsync(request.AccountEmail);
+            if (existingAccount != null)
+            {
+                return BadRequest("Email already exists.");
+            }
+
+            var hashedPassword = _passwordHasher.HashPassword(request.AccountPassword);
+
+            var newAccount = new SystemAccount
+            {
+                AccountName = request.AccountName,
+                AccountEmail = request.AccountEmail,
+                AccountPassword = hashedPassword,
+                AccountRole = 4 // Reader role mặc định
+            };
+
+            await _repo.AddAccountAsync(newAccount);
+
+            return Ok("Account created successfully.");
+        }
+
     }
 }
