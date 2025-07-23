@@ -20,4 +20,6 @@ public partial class SystemAccount
     public virtual ICollection<NewsArticle> NewsArticleCreatedBies { get; set; } = new List<NewsArticle>();
 
     public virtual ICollection<NewsArticle> NewsArticleUpdatedBies { get; set; } = new List<NewsArticle>();
+    public virtual ICollection<NewsLike> NewsLikes { get; set; } = new List<NewsLike>();
+
 }

@@ -16,6 +16,8 @@ public partial class NewsArticle
     public string? NewsContent { get; set; }
 
     public string? NewsSource { get; set; }
+    public string? ImagePath { get; set; }
+    public int? ViewCount { get; set; }
 
     public int CategoryId { get; set; }
 
@@ -36,4 +38,5 @@ public partial class NewsArticle
     public virtual SystemAccount? UpdatedBy { get; set; }
 
     public virtual ICollection<Tag> Tags { get; set; } = new List<Tag>();
+    public virtual ICollection<NewsLike> NewsLikes { get; set; } = new List<NewsLike>();
 }

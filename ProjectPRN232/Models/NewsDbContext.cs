@@ -24,6 +24,7 @@ public partial class NewsDbContext : DbContext
     public virtual DbSet<SystemAccount> SystemAccounts { get; set; }
 
     public virtual DbSet<Tag> Tags { get; set; }
+    public virtual DbSet<NewsLike> NewsLikes { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -62,6 +63,10 @@ public partial class NewsDbContext : DbContext
                 .HasColumnType("datetime");
             entity.Property(e => e.IsActive).HasDefaultValue(true);
             entity.Property(e => e.NewsArticleId).HasColumnName("NewsArticleID");
+            entity.HasOne(e => e.ParentComment)
+                  .WithMany(e => e.Replies)
+                  .HasForeignKey(e => e.ParentCommentId)
+                  .OnDelete(DeleteBehavior.Restrict);
 
             entity.HasOne(d => d.CreatedBy).WithMany(p => p.Comments)
                 .HasForeignKey(d => d.CreatedById)
@@ -89,6 +94,12 @@ public partial class NewsDbContext : DbContext
             entity.Property(e => e.Headline).HasMaxLength(500);
             entity.Property(e => e.ModifiedDate).HasColumnType("datetime");
             entity.Property(e => e.NewsSource).HasMaxLength(100);
+            entity.Property(e => e.ImagePath)
+            .HasMaxLength(255)
+            .HasColumnName("ImagePath");
+            entity.Property(e => e.ViewCount)
+                  .HasDefaultValue(0)
+                  .HasColumnName("ViewCount");
             entity.Property(n => n.NewsStatus).HasConversion<int>();
             entity.Property(e => e.NewsTitle).HasMaxLength(200);
             entity.Property(e => e.UpdatedById).HasColumnName("UpdatedByID");
@@ -150,6 +161,34 @@ public partial class NewsDbContext : DbContext
             entity.Property(e => e.Note).HasMaxLength(200);
             entity.Property(e => e.TagName).HasMaxLength(50);
         });
+        modelBuilder.Entity<NewsLike>(entity =>
+        {
+            entity.HasKey(e => e.LikeId);
+
+            entity.ToTable("NewsLike");
+
+            entity.Property(e => e.LikeId).HasColumnName("LikeID");
+            entity.Property(e => e.NewsArticleId).HasColumnName("NewsArticleID");
+            entity.Property(e => e.LikedById).HasColumnName("LikedByID");
+            entity.Property(e => e.LikedDate)
+                  .HasColumnType("datetime")
+                  .HasDefaultValueSql("GETDATE()");
+
+            entity.HasIndex(e => new { e.NewsArticleId, e.LikedById }).IsUnique();
+
+            entity.HasOne(d => d.NewsArticle)
+                .WithMany(p => p.NewsLikes)
+                .HasForeignKey(d => d.NewsArticleId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Like_News");
+
+            entity.HasOne(d => d.LikedBy)
+                .WithMany(p => p.NewsLikes)
+                .HasForeignKey(d => d.LikedById)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("FK_Like_User");
+        });
+
 
         OnModelCreatingPartial(modelBuilder);
     }

@@ -8,7 +8,8 @@
         public DateTime CreatedDate { get; set; }
         public string NewsContent { get; set; }
         public string NewsSource { get; set; }
-
+        public string? ImagePath { get; set; }      
+        public int ViewCount { get; set; }
         public int NewsStatus { get; set; }          // Trạng thái bài viết (0/1/2)
         public string NewsStatusName { get; set; }   // Tên hiển thị (Pending/Approved/Rejected)
 

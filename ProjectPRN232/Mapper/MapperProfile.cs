@@ -25,6 +25,18 @@ namespace ProjectPRN232.Mapper
 
             CreateMap<SystemAccount, LoginResponseDTO>();
             CreateMap<LoginRequestDTO, SystemAccount>();
+
+            // Comment
+            CreateMap<Comment, CommentDTO>()
+                .ForMember(dest => dest.CreatedByName, opt => opt.MapFrom(src => src.CreatedBy.AccountName))
+                .ForMember(dest => dest.Replies, opt => opt.MapFrom(src => src.Replies.Where(r => r.IsActive)));
+
+            CreateMap<CommentCreateDTO, Comment>()
+                .ForMember(dest => dest.CreatedDate, opt => opt.MapFrom(_ => DateTime.Now))
+                .ForMember(dest => dest.IsActive, opt => opt.MapFrom(_ => true));
+
+            // NewsLike
+            CreateMap<NewsLike, NewsLikeDTO>();
         }
     }
 }
