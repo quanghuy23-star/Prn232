@@ -1,7 +1,40 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\project_client\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|d:\\fpt\\term8\\prn232\\projectprn232\\projectprn232_client\\project_client\\project_client\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\service\\baseservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\project_client\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\project_client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\project_client\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\project_client\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\views\\login\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\project_client\\dto\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\dto\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\project_client\\dto\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{31446717-4355-4D82-BBFB-47808E249FC4}|PROJECT_CLIENT\\PROJECT_CLIENT.csproj|solutionrelative:project_client\\dto\\registerdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,7 +42,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,6 +63,104 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BaseService.cs",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Service\\BaseService.cs",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\Service\\BaseService.cs",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Service\\BaseService.cs",
+              "RelativeToolTip": "PROJECT_CLIENT\\Service\\BaseService.cs",
+              "ViewState": "AQIAAIMAAAAAAAAAAAAUwJUAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T09:51:50.579Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\appsettings.json",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\appsettings.json",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\appsettings.json",
+              "RelativeToolTip": "PROJECT_CLIENT\\appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-23T09:58:05.544Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "RegisterDTO.cs",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\DTO\\RegisterDTO.cs",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\DTO\\RegisterDTO.cs",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\DTO\\RegisterDTO.cs",
+              "RelativeToolTip": "PROJECT_CLIENT\\DTO\\RegisterDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T09:56:58.349Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "LoginDTO.cs",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\DTO\\LoginDTO.cs",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\DTO\\LoginDTO.cs",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\DTO\\LoginDTO.cs",
+              "RelativeToolTip": "PROJECT_CLIENT\\DTO\\LoginDTO.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T09:45:30.288Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\Properties\\launchSettings.json",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Properties\\launchSettings.json",
+              "RelativeToolTip": "PROJECT_CLIENT\\Properties\\launchSettings.json",
+              "ViewState": "AQIAAAkAAAAAAAAAAAAAABUAAAAfAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-07-23T10:08:42.893Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Views\\Login\\Index.cshtml",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\Views\\Login\\Index.cshtml",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Views\\Login\\Index.cshtml",
+              "RelativeToolTip": "PROJECT_CLIENT\\Views\\Login\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-07-23T10:00:00.931Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Program.cs",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\Program.cs",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Program.cs",
+              "RelativeToolTip": "PROJECT_CLIENT\\Program.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAqAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T10:09:14.484Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "PROJECT_CLIENT\\Controllers\\LoginController.cs",
+              "ToolTip": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "PROJECT_CLIENT\\Controllers\\LoginController.cs",
+              "ViewState": "AQIAACkAAAAAAAAAAAAgwDkAAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-23T09:59:26.443Z"
             }
           ]
         }

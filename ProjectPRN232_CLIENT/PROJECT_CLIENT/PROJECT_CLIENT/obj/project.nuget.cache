@@ -1,8 +1,16 @@
 {
   "version": 2,
-  "dgSpecHash": "7vw8c0d3su/1D+lB8AK0X0Su/prLJYarxGXztvQvAflIUL44T8s7YwFNruAOJ1uMv+jgPeb9AhMGTW9QnPm7+Q==",
+  "dgSpecHash": "cHYvih1Wyajdy1qH2idgXyu9teT25bpa5tswSIpwofpF8AwO9hZIBC6ijKawXcfMd2ZVKcPDj/4V9WoVRv9nzw==",
   "success": true,
   "projectFilePath": "D:\\FPT\\Term8\\PRN232\\ProjectPRN232\\ProjectPRN232_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT\\PROJECT_CLIENT.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0\\microsoft.extensions.dependencyinjection.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0\\microsoft.extensions.logging.abstractions.8.0.0.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.identitymodel.abstractions\\8.12.1\\microsoft.identitymodel.abstractions.8.12.1.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.identitymodel.jsonwebtokens\\8.12.1\\microsoft.identitymodel.jsonwebtokens.8.12.1.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.identitymodel.logging\\8.12.1\\microsoft.identitymodel.logging.8.12.1.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\microsoft.identitymodel.tokens\\8.12.1\\microsoft.identitymodel.tokens.8.12.1.nupkg.sha512",
+    "C:\\Users\\nguye\\.nuget\\packages\\system.identitymodel.tokens.jwt\\8.12.1\\system.identitymodel.tokens.jwt.8.12.1.nupkg.sha512"
+  ],
   "logs": []
 }
