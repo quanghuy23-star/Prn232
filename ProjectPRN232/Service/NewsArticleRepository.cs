@@ -25,6 +25,7 @@ namespace ProjectPRN232.Service
                 .Include(x => x.Category)
                 .Include(x => x.CreatedBy)
                 .Include(x => x.UpdatedBy)
+                .Include(x=>x.Tags)
                 .FirstOrDefaultAsync(x => x.NewsArticleId == id);
         }
 

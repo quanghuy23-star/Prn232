@@ -55,8 +55,9 @@ namespace PROJECT_CLIENT.Controllers
 
             return role switch
             {
-                "ADMIN" => RedirectToAction("Index", "AdminClient"),
-                "AUTHOR" => RedirectToAction("Index", "ManageByAuthor"),
+                "Admin" => RedirectToAction("Index", "AdminClient"),
+                "Staff" => RedirectToAction("Index", "ManageByStaff"),
+                "Writer" => RedirectToAction("Index", "ManageByWriter"),
                 _ => RedirectToAction("Index", "Home"),
             };
         }

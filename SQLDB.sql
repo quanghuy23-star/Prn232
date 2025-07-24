@@ -35,7 +35,7 @@ CREATE TABLE NewsArticle (
     CreatedDate DATETIME NOT NULL DEFAULT '2025-05-28 16:37:00 +07:00',
     NewsContent NVARCHAR(MAX),
     NewsSource NVARCHAR(100),
-    CategoryID INT NOT NULL, -- Một NewsArticle chỉ thuộc một Category
+    CategoryID INT , -- Một NewsArticle chỉ thuộc một Category
     NewsStatus INT NOT NULL, 
     CreatedByID INT,
     UpdatedByID INT,

@@ -37,6 +37,16 @@ namespace ProjectPRN232.Mapper
 
             // NewsLike
             CreateMap<NewsLike, NewsLikeDTO>();
+            //Category
+            CreateMap<Category, CategoryDTO>()
+            .ForMember(dest => dest.ParentCategoryName, opt => opt.MapFrom(src => src.ParentCategory != null ? src.ParentCategory.CategoryName : null))
+            .ForMember(dest => dest.Children, opt => opt.MapFrom(src => src.InverseParentCategory));
+
+            CreateMap<CategoryDTO, Category>()
+                .ForMember(dest => dest.ParentCategory, opt => opt.Ignore())
+                .ForMember(dest => dest.InverseParentCategory, opt => opt.Ignore())
+                .ForMember(dest => dest.NewsArticles, opt => opt.Ignore());
+
         }
     }
 }

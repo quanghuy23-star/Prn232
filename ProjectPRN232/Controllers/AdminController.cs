@@ -57,7 +57,7 @@ namespace ProjectPRN232.Controllers
             return NoContent();
         }
 
-        [HttpPatch("{id}/approve")]
+        [HttpPut("{id}/approve")]
         [Authorize(Roles = "Staff")]
         public async Task<ActionResult> Approve(int id)
         {
@@ -72,7 +72,7 @@ namespace ProjectPRN232.Controllers
             return Ok("Approved.");
         }
 
-        [HttpPatch("{id}/reject")]
+        [HttpPut("{id}/reject")]
         [Authorize(Roles = "Staff")]
         public async Task<ActionResult> Reject(int id)
         {

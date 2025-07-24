@@ -139,7 +139,7 @@ namespace PROJECT_CLIENT.Service
         }
         public async Task<(bool IsSuccess, string? UserId, string? Error)> RegisterAsync(RegisterDTO dto)
         {
-            string url = _rootUrl + "Register"; // Chú ý: Không cần thêm /api vì đã có trong _rootUrl nếu cấu hình đúng
+            string url = _rootUrl + "Register";
 
             using var client = new HttpClient();
             var json = JsonSerializer.Serialize(dto);
@@ -155,7 +155,8 @@ namespace PROJECT_CLIENT.Service
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var userId = root.GetProperty("userId").GetString();
+                    // ✅ Sửa lỗi tại đây:
+                    var userId = root.GetProperty("userId").GetInt32().ToString();
                     return (true, userId, null);
                 }
                 else
@@ -171,5 +172,6 @@ namespace PROJECT_CLIENT.Service
                 return (false, null, $"Lỗi khi phân tích phản hồi: {ex.Message}");
             }
         }
+
     }
 }

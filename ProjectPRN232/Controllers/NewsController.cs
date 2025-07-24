@@ -27,7 +27,7 @@ namespace ProjectPRN232.Controllers
 
         [HttpGet]
         [EnableQuery]
-        [Authorize]
+       // [Authorize]
         public ActionResult<IQueryable<NewsArticleDTO>> GetAll()
         {
             var data = _repo.GetAll().Where(x => x.NewsStatus == NewsStatus.Approved);
@@ -35,14 +35,27 @@ namespace ProjectPRN232.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //  [Authorize]
         public async Task<ActionResult<NewsArticleDTO>> Get(int id)
         {
             var article = await _repo.GetByIdAsync(id);
             if (article == null || article.NewsStatus != NewsStatus.Approved) return NotFound();
-
+           
             return Ok(_mapper.Map<NewsArticleDTO>(article));
         }
+        [HttpPost("{id}/increase-view")]
+        public async Task<IActionResult> IncreaseView(int id)
+        {
+            var article = await _repo.GetByIdAsync(id);
+            if (article == null || article.NewsStatus != NewsStatus.Approved)
+                return NotFound();
+
+            article.ViewCount += 1;
+            await _repo.UpdateAsync(article);
+
+            return NoContent(); // HTTP 204
+        }
+
 
         [HttpPost("create")]
         [Authorize(Roles = "Writer")]

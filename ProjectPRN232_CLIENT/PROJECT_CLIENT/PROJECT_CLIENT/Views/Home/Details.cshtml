@@ -1,0 +1,210 @@
+﻿@using System.Security.Claims
+@model PROJECT_CLIENT.DTO.ArticleDTO
+@{
+    var currentUserId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+    var userRole = User.FindFirst(ClaimTypes.Role)?.Value ?? User.FindFirst("role")?.Value;
+}
+
+<style>
+    .text-purple {
+        color: #6f42c1;
+    }
+
+    .btn-purple {
+        background-color: #6f42c1;
+        border-color: #6f42c1;
+        color: white;
+    }
+
+        .btn-purple:hover {
+            background-color: #59329d;
+            border-color: #59329d;
+        }
+
+    .dropdown-menu {
+        min-width: 220px;
+    }
+
+    .comment-box {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 15px;
+    }
+
+    .comment-meta {
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .comment-actions {
+        float: right;
+    }
+
+    .comment-content {
+        margin-top: 4px;
+    }
+
+    .article-image {
+        max-height: 400px;
+        object-fit: cover;
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<!-- Ảnh đầu bài -->
+@if (!string.IsNullOrEmpty(Model.ImagePath))
+{
+    <img src="@Model.ImagePath" class="article-image" alt="article image" />
+}
+
+<!-- Thông tin bài viết -->
+<h2 class="text-purple">@Model.NewsTitle</h2>
+<p>@Model.NewsContent</p>
+<p><strong>Chuyên mục:</strong> @Model.CategoryName</p>
+<p><strong>Tác giả:</strong> @Model.CreatedByName</p>
+<p>
+    <strong>Tags:</strong>
+    @foreach (var tag in Model.Tags)
+    {
+        <span class="badge bg-secondary me-1">@tag.TagName</span>
+    }
+</p>
+
+<p><strong>Nguồn:</strong> @Model.NewsSource</p>
+<p><strong>Ngày tạo:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</p>
+
+<hr />
+@* <h4 class="text-purple">🗨️ Bình luận (@Model.Comments.Count)</h4> *@
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<!-- Danh sách bình luận -->
+@* <ul class="list-unstyled">
+    @foreach (var c in Model.Comments)
+    {
+        <li class="mb-3 comment-box">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <div class="comment-meta">
+                        <strong>@c.UserFullName</strong> • @c.PostedAt.ToString("dd/MM/yyyy HH:mm")
+                    </div>
+                    <div class="comment-content">@c.Content</div>
+                </div>
+
+                @if (currentUserId == c.UserId || userRole == "MODERATOR")
+                {
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            ⋮
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            @if (currentUserId == c.UserId)
+                            {
+                                <li class="px-3 py-2">
+                                    <form method="post" asp-action="EditComment" asp-controller="Home">
+                                        <input type="hidden" name="Id" value="@c.Id" />
+                                        <input type="text" name="Content" value="@c.Content" class="form-control mb-2" />
+                                        <button type="submit" class="btn btn-sm btn-warning w-100">Lưu chỉnh sửa</button>
+                                    </form>
+                                </li>
+                            }
+                            <li class="px-3 py-2">
+                                <form method="post" asp-action="DeleteComment" asp-controller="Home">
+                                    <input type="hidden" name="id" value="@c.Id" />
+                                    <button type="submit" class="btn btn-sm btn-danger w-100">
+                                        @((currentUserId == c.UserId) ? "Xóa" : "MOD Xóa")
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </li>
+    }
+</ul> *@
+
+<!-- Form thêm bình luận -->
+@* <hr />
+@if (User.Identity.IsAuthenticated)
+{
+    <form method="post" asp-action="AddComment">
+        @Html.AntiForgeryToken()
+        <input type="hidden" name="ArticleId" value="@Model.Id" />
+        <div class="form-group">
+            <label for="Content" class="text-purple">Thêm bình luận</label>
+            <textarea name="Content" class="form-control" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-purple mt-2">Gửi bình luận</button>
+    </form>
+}
+else
+{
+    <p><em>Bạn cần <a asp-controller="Account" asp-action="Login">đăng nhập</a> để bình luận.</em></p>
+}
+
+<!-- Bảng người liên quan -->
+<h4 class="mt-5 text-purple">👥 Danh sách thành viên liên quan</h4>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>UserName</th>
+            <th>Vai trò</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ua in Model.UserArticles)
+        {
+            <tr>
+                <td>@ua.UserName</td>
+                <td>@ua.RoleInArticle</td>
+            </tr>
+        }
+    </tbody>
+</table> *@
+
+@{
+    var articleId = Model.NewsArticleId;
+}
+
+@section Scripts {
+    <script>
+        const articleId = @articleId;
+        const cookieKey = `ViewedArticle_${articleId}`;
+        const expireMinutes = 30;
+
+        function setCookie(name, value, minutes) {
+            const d = new Date();
+            d.setTime(d.getTime() + (minutes * 60 * 1000));
+            const expires = "expires=" + d.toUTCString();
+            document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax;Secure`;
+        }
+
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Chỉ gọi API tăng view nếu chưa xem
+        if (!getCookie(cookieKey)) {
+            fetch(`/api/news/${articleId}/increase-view`, {
+                method: 'POST'
+            }).then(res => {
+                if (res.ok) {
+                    setCookie(cookieKey, "true", expireMinutes);
+                    console.log("Tăng lượt xem bài viết");
+                }
+            }).catch(err => {
+                console.error("Lỗi khi tăng view:", err);
+            });
+        }
+    </script>
+}

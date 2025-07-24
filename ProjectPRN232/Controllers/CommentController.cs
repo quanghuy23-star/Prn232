@@ -93,11 +93,18 @@ namespace ProjectPRN232.Controllers
             if (comment == null || !comment.IsActive) return NotFound();
 
             var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
-            if (comment.CreatedById != userId) return Forbid();
+            var role = User.FindFirstValue(ClaimTypes.Role);
+
+            // Nếu không phải Staff thì chỉ được xóa comment do chính mình tạo
+            if (role != "Staff" && comment.CreatedById != userId)
+            {
+                return Forbid();
+            }
 
             comment.IsActive = false;
             await _context.SaveChangesAsync();
             return NoContent();
         }
+
     }
 }

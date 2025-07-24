@@ -19,7 +19,7 @@ public partial class NewsArticle
     public string? ImagePath { get; set; }
     public int? ViewCount { get; set; }
 
-    public int CategoryId { get; set; }
+    public int? CategoryId { get; set; }
 
     public NewsStatus NewsStatus { get; set; }
 

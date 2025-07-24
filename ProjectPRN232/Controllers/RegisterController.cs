@@ -42,7 +42,7 @@ namespace ProjectPRN232.Controllers
                 AccountName = request.AccountName,
                 AccountEmail = request.AccountEmail,
                 AccountPassword = hashedPassword,
-                AccountRole = request.AccountRole
+              //  AccountRole = request.AccountRole
             };
 
             await _repo.AddAccountAsync(newAccount);
@@ -56,7 +56,7 @@ namespace ProjectPRN232.Controllers
             var existingAccount = await _repo.GetByEmailAsync(request.AccountEmail);
             if (existingAccount != null)
             {
-                return BadRequest("Email already exists.");
+                return BadRequest(new { message = "Email already exists." }); // ✅ Trả về JSON chuẩn
             }
 
             var hashedPassword = _passwordHasher.HashPassword(request.AccountPassword);
@@ -71,7 +71,8 @@ namespace ProjectPRN232.Controllers
 
             await _repo.AddAccountAsync(newAccount);
 
-            return Ok("Account created successfully.");
+            return Ok(new { message = "Account created successfully.", userId = newAccount.AccountId });
+
         }
 
     }
