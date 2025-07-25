@@ -55,9 +55,9 @@ namespace PROJECT_CLIENT.Controllers
 
             return role switch
             {
-                "Admin" => RedirectToAction("Index", "AdminClient"),
-                "Staff" => RedirectToAction("Index", "ManageByStaff"),
-                "Writer" => RedirectToAction("Index", "ManageByWriter"),
+                "Admin" => RedirectToAction("AccountList", "AdminClient"),
+                "Staff" => RedirectToAction("Index", "staff"),
+                "Writer" => RedirectToAction("MyArticles", "writer"),
                 _ => RedirectToAction("Index", "Home"),
             };
         }
@@ -66,7 +66,7 @@ namespace PROJECT_CLIENT.Controllers
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync();
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

@@ -34,8 +34,14 @@ builder.Services.AddAutoMapper(typeof(Program));
 builder.Services.AddControllers().AddOData(options =>
 {
     options.Select().Filter().OrderBy().SetMaxTop(100);
+ /*   .AddRouteComponents("odata", GetEdmModel());*/
 });
-
+static IEdmModel GetEdmModel()
+{
+    var builder = new ODataConventionModelBuilder();
+    builder.EntitySet<NewsArticleDTO>("News"); // 👈 tên giống controller OData
+    return builder.GetEdmModel();
+}
 builder.Services.AddControllers(
               options => {
                   //options.OutputFormatters.Add(new CsvOutputFormatter());
@@ -98,7 +104,19 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddDbContext<NewsDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("https://localhost:7084")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 var app = builder.Build();
+app.UseCors("AllowFrontend");
+
 
 //  8. Middleware pipeline
 if (app.Environment.IsDevelopment())

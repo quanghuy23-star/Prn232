@@ -46,6 +46,7 @@ namespace ProjectPRN232.Mapper
                 .ForMember(dest => dest.ParentCategory, opt => opt.Ignore())
                 .ForMember(dest => dest.InverseParentCategory, opt => opt.Ignore())
                 .ForMember(dest => dest.NewsArticles, opt => opt.Ignore());
+            CreateMap<SystemAccount, SystemAccountDTO>();
 
         }
     }

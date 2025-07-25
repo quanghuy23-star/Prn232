@@ -46,4 +46,12 @@ public class SystemAccountRepository : ISystemAccountRepository
     {
         return _context.SaveChangesAsync();
     }
+    public async Task<List<SystemAccount>> GetAllAsync()
+    {
+        return await _context.SystemAccounts
+            .Where(a => a.AccountRole != (int)Role.Admin) // không hiện admin lên
+            .ToListAsync();
+    }
+
+
 }

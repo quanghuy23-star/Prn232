@@ -1,0 +1,60 @@
+﻿@model IEnumerable<PROJECT_CLIENT.DTO.CategoryDTO>
+@{
+    ViewData["Title"] = "Danh sách danh mục";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<div class="d-flex justify-content-between mb-3">
+    <a asp-action="Index" asp-controller="Staff" class="btn btn-secondary">← Quay lại</a>
+    <a asp-action="CreateCategory" class="btn btn-success">+ Thêm danh mục</a>
+</div>
+
+
+<table class="table table-bordered table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th>Tên danh mục</th>
+            <th>Mô tả</th>
+            <th>Danh mục cha</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.CategoryName</td>
+                <td>@item.CategoryDescription</td>
+                <td>@(item.ParentCategoryName ?? "—")</td>
+                <td>
+                    @if (item.IsActive)
+                    {
+                        <span class="text-success">Hoạt động</span>
+                    }
+                    else
+                    {
+                        <span class="text-muted">Ẩn</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="EditCategory" asp-route-id="@item.CategoryId" class="btn btn-sm btn-primary">Sửa</a>
+                    <form asp-action="DeleteCategory" asp-route-id="@item.CategoryId" method="post" style="display:inline;"
+                          onsubmit="return confirm('Bạn có chắc chắn muốn xóa danh mục này?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

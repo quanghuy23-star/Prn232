@@ -12,7 +12,7 @@
         public int ViewCount { get; set; }
         public int NewsStatus { get; set; }          // Trạng thái bài viết (0/1/2)
         public string NewsStatusName { get; set; }   // Tên hiển thị (Pending/Approved/Rejected)
-
+        public int? CategoryId { get; set; }
         public string CategoryName { get; set; }
         public string ParentCategoryName { get; set; }
         public string CreatedByName { get; set; }

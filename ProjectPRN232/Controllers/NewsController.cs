@@ -146,7 +146,15 @@ namespace ProjectPRN232.Controllers
             var result = _repo.GetAll().Where(x => x.CreatedById == userId);
             return Ok(_mapper.ProjectTo<NewsArticleDTO>(result));
         }
+        [HttpGet("my-articles/{id}")]
+        //  [Authorize]
+        public async Task<ActionResult<NewsArticleDTO>> GetMyArticle(int id)
+        {
+            var article = await _repo.GetByIdAsync(id);
+            if (article == null) return NotFound();
 
+            return Ok(_mapper.Map<NewsArticleDTO>(article));
+        }
         [HttpGet("search")]
         [Authorize]
         public ActionResult<IEnumerable<NewsArticleDTO>> Search(string keyword)
@@ -155,6 +163,67 @@ namespace ProjectPRN232.Controllers
                 .Where(x => x.NewsStatus == NewsStatus.Approved && x.NewsTitle.Contains(keyword));
             return Ok(_mapper.ProjectTo<NewsArticleDTO>(result));
         }
+        [HttpGet("active-categories")]
+        public async Task<ActionResult<IEnumerable<CategoryDTO>>> GetActiveCategories()
+        {
+            var categories = await _context.Categories
+                .Where(c => c.IsActive)
+                .ToListAsync();
+
+            var result = _mapper.Map<IEnumerable<CategoryDTO>>(categories);
+            return Ok(result);
+        }
+        [HttpGet("tags")]
+        public async Task<ActionResult<IEnumerable<TagDTO>>> GetAllTags()
+        {
+            var tags = await _context.Tags
+                .ToListAsync();
+
+            var result = _mapper.Map<IEnumerable<TagDTO>>(tags);
+            return Ok(result);
+        }
+
+        [HttpGet("related-by-tagid/{tagId}")]
+        public async Task<IActionResult> GetArticlesByTagId(int tagId)
+        {
+            var relatedArticles = await _context.NewsArticles
+                .Where(n =>
+                    n.NewsStatus == NewsStatus.Approved &&
+                    n.Tags.Any(t => t.TagId == tagId))
+                .OrderByDescending(n => n.CreatedDate)
+                .Select(n => new NewsArticleDTO
+                {
+                    NewsArticleId = n.NewsArticleId,
+                    NewsTitle = n.NewsTitle,
+                    Headline = n.Headline,
+                    CreatedDate = n.CreatedDate,
+                    NewsContent = n.NewsContent,
+                    NewsSource = n.NewsSource,
+                    ImagePath = n.ImagePath,
+                    ViewCount = n.ViewCount ?? 0,
+                    NewsStatus = (int)n.NewsStatus,
+                    NewsStatusName = n.NewsStatus.ToString(),
+                    CategoryId = n.CategoryId,
+                    CategoryName = n.Category.CategoryName,
+                    ParentCategoryName = n.Category.ParentCategory != null ? n.Category.ParentCategory.CategoryName : null,
+                    CreatedByName = n.CreatedBy.AccountName,
+                    UpdatedByName = n.UpdatedBy != null ? n.UpdatedBy.AccountName : null,
+                    ModifiedDate = n.ModifiedDate,
+                    Tags = n.Tags.Select(t => new TagDTO
+                    {
+                        TagId = t.TagId,
+                        TagName = t.TagName,
+                        Note = t.Note
+                    }).ToList()
+                })
+                .ToListAsync();
+
+            return Ok(relatedArticles);
+        }
+
+
+
+
     }
 
 

@@ -1,0 +1,26 @@
+﻿@model List<PROJECT_CLIENT.DTO.ArticleDTO>
+
+@{
+    ViewBag.Title = "Bài viết theo Tag";
+}
+
+<h2 class="text-xl font-semibold mb-4">Bài viết liên quan theo tag</h2>
+
+@if (Model.Count == 0)
+{
+    <p>Không có bài viết nào với tag này.</p>
+}
+else
+{
+    <ul class="space-y-3">
+        @foreach (var article in Model)
+        {
+            <li>
+                <a href="@Url.Action("Details", "Home", new { id = article.NewsArticleId })" class="text-blue-600 hover:underline">
+                    @article.NewsTitle
+                </a>
+                <span class="text-gray-500 text-sm ml-2">@article.CreatedDate.ToString("dd/MM/yyyy")</span>
+            </li>
+        }
+    </ul>
+}

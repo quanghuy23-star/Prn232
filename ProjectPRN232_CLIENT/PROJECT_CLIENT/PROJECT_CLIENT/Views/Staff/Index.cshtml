@@ -11,6 +11,13 @@
 }
 
 <h2 class="text-2xl font-semibold mb-4">Quản lý bài viết</h2>
+<div class="button-container mb-3">
+    <a href="/Staff/Tags" class="btn btn-blue">Quản lý Tag</a>
+    <a href="/Staff/Category" class="btn btn-green">Quản lý Category</a>
+</div>
+
+
+
 
 @if (TempData["Success"] != null)
 {
@@ -24,6 +31,7 @@
         @TempData["Error"]
     </div>
 }
+
 
 <table class="table-auto w-full border rounded shadow">
     <thead class="bg-gray-200 text-left">

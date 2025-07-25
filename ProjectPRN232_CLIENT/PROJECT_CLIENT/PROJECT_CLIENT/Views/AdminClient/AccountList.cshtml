@@ -1,0 +1,47 @@
+﻿@model List<PROJECT_CLIENT.DTO.SystemAccountDTO>
+@using PROJECT_CLIENT.DTO
+<h2 class="mb-3">Quản lý tài khoản</h2>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Email</th>
+            <th>Tên</th>
+            <th>Vai trò</th>
+            <th>Cập nhật</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var acc in Model)
+        {
+            <tr>
+                <td>@acc.AccountEmail</td>
+                <td>@acc.AccountName</td>
+                <td>@((Role)acc.AccountRole)</td>
+                <td>
+                    <form method="post" asp-action="SetRole">
+                        <input type="hidden" name="AccountId" value="@acc.AccountId" />
+                        <select name="Role" class="form-select form-select-sm w-auto d-inline">
+                            @foreach (var role in Enum.GetValues(typeof(Role)))
+                            {
+                                <option value="@((int)role)" selected="@(acc.AccountRole == (int)role ? "selected" : null)">
+                                    @role
+                                </option>
+                            }
+                        </select>
+                        <button type="submit" class="btn btn-sm btn-primary ms-2">Cập nhật</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

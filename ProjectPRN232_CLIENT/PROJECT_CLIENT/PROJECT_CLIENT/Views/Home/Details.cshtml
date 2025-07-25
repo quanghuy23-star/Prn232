@@ -53,6 +53,7 @@
     }
 </style>
 
+
 <!-- Ảnh đầu bài -->
 @if (!string.IsNullOrEmpty(Model.ImagePath))
 {
@@ -68,66 +69,26 @@
     <strong>Tags:</strong>
     @foreach (var tag in Model.Tags)
     {
-        <span class="badge bg-secondary me-1">@tag.TagName</span>
+        <a href="/NewsByTag/@tag.TagId" class="text-blue-500 hover:underline mr-2">
+            @tag.TagName
+        </a>
     }
 </p>
 
 <p><strong>Nguồn:</strong> @Model.NewsSource</p>
 <p><strong>Ngày tạo:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</p>
 
-<hr />
-@* <h4 class="text-purple">🗨️ Bình luận (@Model.Comments.Count)</h4> *@
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">@TempData["Error"]</div>
-}
+<div class="mt-3">
+    <button id="like-button" class="btn btn-outline-danger btn-sm">
+        ❤️ <span id="like-text">Thích</span> (<span id="like-count">0</span>)
+    </button>
+</div>
+<input type="hidden" id="jwt-token" value="@User.FindFirst("AccessToken")?.Value" />
 
-<!-- Danh sách bình luận -->
-@* <ul class="list-unstyled">
-    @foreach (var c in Model.Comments)
-    {
-        <li class="mb-3 comment-box">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <div class="comment-meta">
-                        <strong>@c.UserFullName</strong> • @c.PostedAt.ToString("dd/MM/yyyy HH:mm")
-                    </div>
-                    <div class="comment-content">@c.Content</div>
-                </div>
-
-                @if (currentUserId == c.UserId || userRole == "MODERATOR")
-                {
-                    <div class="dropdown">
-                        <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            ⋮
-                        </button>
-                        <ul class="dropdown-menu dropdown-menu-end">
-                            @if (currentUserId == c.UserId)
-                            {
-                                <li class="px-3 py-2">
-                                    <form method="post" asp-action="EditComment" asp-controller="Home">
-                                        <input type="hidden" name="Id" value="@c.Id" />
-                                        <input type="text" name="Content" value="@c.Content" class="form-control mb-2" />
-                                        <button type="submit" class="btn btn-sm btn-warning w-100">Lưu chỉnh sửa</button>
-                                    </form>
-                                </li>
-                            }
-                            <li class="px-3 py-2">
-                                <form method="post" asp-action="DeleteComment" asp-controller="Home">
-                                    <input type="hidden" name="id" value="@c.Id" />
-                                    <button type="submit" class="btn btn-sm btn-danger w-100">
-                                        @((currentUserId == c.UserId) ? "Xóa" : "MOD Xóa")
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                }
-            </div>
-        </li>
-    }
-</ul> *@
+<hr/>
+<!-- Render Partial View để hiển thị bình luận -->
+<partial name="_CommentSection" model="Model.NewsArticleId" />
 
 <!-- Form thêm bình luận -->
 @* <hr />
@@ -168,13 +129,150 @@ else
     </tbody>
 </table> *@
 
-@{
-    var articleId = Model.NewsArticleId;
+<h4 class="text-purple mt-5">📰 Bài viết cùng chuyên mục</h4>
+<ul id="related-articles" class="list-unstyled ps-3">
+    <li>Đang tải bài viết liên quan...</li>
+</ul>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const categoryId = @Model.CategoryId;
+            const currentArticleId = @Model.NewsArticleId;
+
+            fetch(`https://localhost:7281/api/News?$filter=CategoryId eq ${categoryId} and NewsStatus eq 1 and NewsArticleId ne ${currentArticleId}&$orderby=CreatedDate desc&$top=5`)
+                .then(res => res.json())
+                .then(data => {
+                    const list = data;  // ✅ Dữ liệu là mảng trực tiếp, không có .value
+                    const container = document.getElementById("related-articles");
+                    container.innerHTML = "";
+
+                    if (!list || list.length === 0) {
+                        container.innerHTML = "<li>Không có bài viết liên quan.</li>";
+                        return;
+                    }
+
+                    list.forEach(item => {
+                        const li = document.createElement("li");
+                        li.innerHTML = `
+                                    <a href="/NewDetails/${item.newsArticleId}" class="text-decoration-none text-dark">
+                                        ${item.newsTitle || "Không có tiêu đề"}
+                                    </a>`;
+                        container.appendChild(li);
+                    });
+                })
+                .catch(err => {
+                    console.error("Lỗi khi tải dữ liệu bài viết liên quan:", err);
+                    document.getElementById("related-articles").innerHTML = "<li>Lỗi khi tải dữ liệu.</li>";
+                });
+        });
+    </script>
+}
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const articleId = @Model.NewsArticleId;
+        const likeBtn = document.getElementById("like-button");
+        const likeText = document.getElementById("like-text");
+        const likeCountSpan = document.getElementById("like-count");
+
+        const apiUrl = "https://localhost:7281/api/NewsLike";
+        const token = document.getElementById("jwt-token")?.value;
+
+        function isLoggedIn() {
+            return token !== null && token !== "";
+        }
+
+        function loadLikeInfo() {
+            fetch(`${apiUrl}/count/${articleId}`)
+                .then(res => res.json())
+                .then(count => {
+                    likeCountSpan.innerText = count;
+                });
+
+            if (isLoggedIn()) {
+                fetch(`${apiUrl}/liked/${articleId}`, {
+                    headers: {
+                        "Authorization": "Bearer " + token
+                    }
+                })
+                    .then(res => res.json())
+                    .then(liked => {
+                        updateLikeButton(liked);
+                        likeBtn.setAttribute("data-liked", liked);
+                    });
+            } else {
+                updateLikeButton(false);
+                likeBtn.setAttribute("data-liked", false);
+            }
+        }
+
+        function updateLikeButton(liked) {
+            if (liked === true || liked === "true") {
+                likeBtn.classList.remove("btn-outline-danger");
+                likeBtn.classList.add("btn-danger");
+                likeText.innerText = "Đã thích";
+            } else {
+                likeBtn.classList.remove("btn-danger");
+                likeBtn.classList.add("btn-outline-danger");
+                likeText.innerText = "Thích";
+            }
+        }
+
+        likeBtn.addEventListener("click", () => {
+            if (!isLoggedIn()) {
+                alert("Vui lòng đăng nhập để tiếp tục.");
+                window.location.href = "/Login";
+                return;
+            }
+
+            const isLiked = likeBtn.getAttribute("data-liked") === "true";
+
+            const url = isLiked
+                ? `${apiUrl}?articleId=${articleId}`
+                : apiUrl;
+
+            const options = {
+                method: isLiked ? "DELETE" : "POST",
+                headers: {
+                    "Authorization": "Bearer " + token,
+                    "Content-Type": "application/json"
+                }
+            };
+
+            if (!isLiked) {
+                options.body = JSON.stringify({ NewsArticleId: articleId });
+            }
+
+            fetch(url, options)
+                .then(res => {
+                    if (res.ok) {
+                        loadLikeInfo();
+                    } else {
+                        alert("Thao tác thất bại.");
+                    }
+                })
+                .catch(err => {
+                    console.error("Lỗi:", err);
+                    alert("Không thể kết nối máy chủ.");
+                });
+        });
+
+        loadLikeInfo();
+    });
+</script>
+
+
+
+
+@* @{
+    var articleId1 = Model.NewsArticleId;
 }
 
 @section Scripts {
     <script>
-        const articleId = @articleId;
+        const articleId1 = @articleId1;
         const cookieKey = `ViewedArticle_${articleId}`;
         const expireMinutes = 30;
 
@@ -207,4 +305,4 @@ else
             });
         }
     </script>
-}
+} *@

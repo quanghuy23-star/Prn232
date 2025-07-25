@@ -44,7 +44,7 @@ public class NewsLikeController : ControllerBase
         return Ok(new { Message = "Liked successfully" });
     }
 
-    [HttpDelete]
+    /*[HttpDelete]
     [Authorize]
     public async Task<IActionResult> UnlikeArticle([FromBody] NewsLikeCreateDTO dto)
     {
@@ -60,7 +60,25 @@ public class NewsLikeController : ControllerBase
         await _context.SaveChangesAsync();
 
         return Ok(new { Message = "Unliked successfully" });
+    }*/
+    [HttpDelete]
+    [Authorize]
+    public async Task<IActionResult> UnlikeArticle([FromQuery] int articleId)
+    {
+        var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+
+        var like = await _context.NewsLikes
+            .FirstOrDefaultAsync(nl => nl.NewsArticleId == articleId && nl.LikedById == userId);
+
+        if (like == null)
+            return NotFound("Like not found.");
+
+        _context.NewsLikes.Remove(like);
+        await _context.SaveChangesAsync();
+
+        return Ok(new { Message = "Unliked successfully" });
     }
+
 
     [HttpGet("count/{newsArticleId}")]
     [AllowAnonymous] // Ai cũng xem được số lượt like

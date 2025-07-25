@@ -1,0 +1,70 @@
+﻿@model PROJECT_CLIENT.DTO.NewsArticleCreateDTO
+
+@{
+    ViewBag.Title = "Tạo bài viết";
+    var categories = ViewBag.Categories as List<PROJECT_CLIENT.DTO.CategoryDTO>;
+    var allTags = ViewBag.AllTags as List<PROJECT_CLIENT.DTO.TagDTO>;
+}
+
+<h2 class="text-xl font-bold mb-4">Tạo bài viết</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="bg-red-100 text-red-700 p-2 rounded mb-4">@TempData["Error"]</div>
+}
+
+<form asp-action="Create" method="post">
+    <label>Tiêu đề</label>
+    <input asp-for="NewsTitle" class="border p-2 w-full mb-2" />
+    <span asp-validation-for="NewsTitle" class="text-red-500 text-sm"></span>
+
+    <label>Tóm tắt</label>
+    <input asp-for="Headline" class="border p-2 w-full mb-2" />
+
+    <label>Nội dung</label>
+    <textarea asp-for="NewsContent" class="border p-2 w-full mb-2"></textarea>
+
+    <label>Nguồn</label>
+    <input asp-for="NewsSource" class="border p-2 w-full mb-2" />
+
+    <label>Danh mục</label>
+    <select asp-for="CategoryId" class="border p-2 w-full mb-2">
+        <option value="">-- Chọn danh mục --</option>
+        @foreach (var cat in categories)
+        {
+            <option value="@cat.CategoryId" selected="@(cat.CategoryId == Model.CategoryId)">
+                @cat.CategoryName
+            </option>
+        }
+    </select>
+
+    <label>Link ảnh</label>
+    <input asp-for="ImagePath" class="border p-2 w-full mb-2" />
+
+    <label>Chọn Tag</label>
+    <select asp-for="TagIds" multiple class="border p-2 w-full mb-4 h-40">
+        @foreach (var tag in allTags)
+        {
+            <option value="@tag.TagId" selected="@(Model.TagIds?.Contains(tag.TagId) ?? false)">
+                @tag.TagName
+            </option>
+        }
+    </select>
+
+    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded">Gửi duyệt</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('select[multiple]').select2({
+                placeholder: "Chọn tag",
+                width: '100%'
+            });
+        });
+    </script>
+}

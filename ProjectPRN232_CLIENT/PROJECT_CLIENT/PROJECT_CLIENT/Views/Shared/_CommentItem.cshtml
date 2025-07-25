@@ -1,0 +1,157 @@
+﻿@model PROJECT_CLIENT.Models.CommentDTO
+
+<style>
+    .comment-box {
+        background-color: #f9fafb;
+        border-left: 4px solid #3b82f6;
+        padding-left: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 6px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+    }
+
+        .comment-box .comment-box {
+            background-color: #f1f5f9;
+            border-left-color: #60a5fa;
+        }
+
+    .comment-author {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: #374151;
+    }
+
+    .comment-date {
+        font-size: 0.75rem;
+        color: #6b7280;
+        margin-left: 0.5rem;
+    }
+
+    .comment-text {
+        margin: 0.4rem 0;
+        color: #1f2937;
+    }
+
+    .reply-button {
+        font-size: 0.85rem;
+        color: #2563eb;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+    }
+
+        .reply-button:hover {
+            text-decoration: underline;
+        }
+
+    .reply-form textarea {
+        width: 100%;
+        padding: 0.4rem;
+        font-size: 0.85rem;
+        border: 1px solid #d1d5db;
+        border-radius: 4px;
+        resize: vertical;
+    }
+
+    .reply-form button {
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        padding: 0.3rem 0.8rem;
+        font-size: 0.85rem;
+        border-radius: 4px;
+        margin-top: 0.4rem;
+        cursor: pointer;
+    }
+
+        .reply-form button:hover {
+            background-color: #1d4ed8;
+        }
+
+    .nested-replies {
+        margin-left: 1.5rem;
+        border-left: 2px solid #e5e7eb;
+        padding-left: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .toggle-replies-btn {
+        margin-top: 0.5rem;
+        font-size: 0.85rem;
+        color: #6b7280;
+        background: none;
+        border: none;
+        cursor: pointer;
+    }
+
+        .toggle-replies-btn:hover {
+            color: #2563eb;
+        }
+</style>
+
+<div class="comment-box">
+    <div>
+        <span class="comment-author">@Model.CreatedByName</span>
+        <span class="comment-date">@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</span>
+    </div>
+    <p class="comment-text">@Model.CommentText</p>
+
+    <button class="reply-button"
+            type="button"
+            onclick="toggleReplyForm(@Model.CommentId)">
+        Trả lời
+    </button>
+
+    <div id="reply-form-@Model.CommentId" class="reply-form hidden">
+        <form asp-controller="Home" asp-action="AddComment" method="post">
+            <input type="hidden" name="NewsArticleId" value="@Model.NewsArticleId" />
+            <input type="hidden" name="ParentCommentId" value="@Model.CommentId" />
+            <textarea name="CommentText" rows="2" placeholder="Nhập trả lời..."></textarea>
+            <br />
+            <button type="submit">Gửi</button>
+        </form>
+    </div>
+
+    @if (Model.Replies != null && Model.Replies.Any())
+    {
+        <button class="toggle-replies-btn"
+                type="button"
+                onclick="toggleReplies(@Model.CommentId)">
+            Hiện @Model.Replies.Count phản hồi...
+        </button>
+
+        <div id="replies-@Model.CommentId" class="nested-replies hidden">
+            @foreach (var reply in Model.Replies)
+            {
+                @Html.Partial("_CommentItem", reply)
+            }
+        </div>
+    }
+</div>
+
+<!-- JavaScript -->
+<script>
+    function toggleReplyForm(commentId) {
+        const form = document.getElementById(`reply-form-${commentId}`);
+        form.classList.toggle('hidden');
+    }
+
+    function toggleReplies(commentId) {
+        const repliesDiv = document.getElementById(`replies-${commentId}`);
+        const button = event.target;
+
+        if (repliesDiv.classList.contains('hidden')) {
+            repliesDiv.classList.remove('hidden');
+            button.textContent = "Ẩn phản hồi";
+        } else {
+            repliesDiv.classList.add('hidden');
+            const count = repliesDiv.querySelectorAll('.comment-box').length;
+            button.textContent = `Hiện ${count} phản hồi...`;
+        }
+    }
+</script>

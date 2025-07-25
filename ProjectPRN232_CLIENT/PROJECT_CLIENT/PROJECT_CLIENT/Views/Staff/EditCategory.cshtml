@@ -1,0 +1,45 @@
+﻿@model PROJECT_CLIENT.DTO.CategoryDTO
+@{
+    ViewData["Title"] = "Chỉnh sửa danh mục";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-action="EditCategory" method="post">
+    <input type="hidden" asp-for="CategoryId" />
+
+    <div class="form-group">
+        <label asp-for="CategoryName"></label>
+        <input asp-for="CategoryName" class="form-control" />
+        <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="CategoryDescription"></label>
+        <textarea asp-for="CategoryDescription" class="form-control"></textarea>
+        <span asp-validation-for="CategoryDescription" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ParentCategoryId">Danh mục cha</label>
+        <select asp-for="ParentCategoryId" class="form-control"
+                asp-items="@(new SelectList((IEnumerable<PROJECT_CLIENT.DTO.CategoryDTO>)ViewBag.ParentCategories, "CategoryId", "CategoryName"))">
+            <option value="">-- Không chọn --</option>
+        </select>
+        <span asp-validation-for="ParentCategoryId" class="text-danger"></span>
+    </div>
+
+    <div class="form-check">
+        <input asp-for="IsActive" class="form-check-input" />
+        <label asp-for="IsActive" class="form-check-label"></label>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Lưu thay đổi</button>
+    <a asp-action="Category" class="btn btn-secondary mt-2">Quay lại</a>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,274 @@
+﻿@model List<PROJECT_CLIENT.DTO.ArticleDTO>
+@{
+    ViewBag.Title = "Bài viết của tôi";
+    string GetStatusLabel(int status) =>
+        status switch
+        {
+            0 => "⏳ Chờ duyệt",
+            1 => "✅ Đã duyệt",
+            2 => "❌ Từ chối",
+            _ => "Không rõ"
+        };
+}
+
+<style>
+    /* General table styling */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background-color: #ffffff;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+    }
+
+    /* Table header */
+    thead {
+        background-color: #f8fafc;
+        color: #1f2937;
+        font-weight: 600;
+    }
+
+    th {
+        padding: 1rem;
+        text-align: left;
+        font-size: 0.875rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-bottom: 2px solid #e5e7eb;
+    }
+
+    /* Table body */
+    tbody tr {
+        transition: background-color 0.3s ease;
+    }
+
+    tbody tr:hover {
+        background-color: #f1f5f9;
+    }
+
+    td {
+        padding: 1rem;
+        font-size: 0.875rem;
+        color: #374151;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    /* Title styling */
+    h2 {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #111827;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    /* Create new article button */
+    a[href="/Writer/Create"] {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: #3b82f6;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 6px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    a[href="/Writer/Create"]:hover {
+        background-color: #2563eb;
+        transform: translateY(-2px);
+    }
+
+    a[href="/Writer/Create"]:active {
+        transform: translateY(0);
+    }
+
+    /* Action link styling */
+    td a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #3b82f6;
+        font-weight: 500;
+        text-decoration: none;
+        transition: color 0.3s ease, text-decoration 0.3s ease;
+    }
+
+    td a:hover {
+        color: #1d4ed8;
+        text-decoration: underline;
+    }
+
+    /* No articles message */
+    p {
+        font-size: 1rem;
+        color: #6b7280;
+        font-style: italic;
+        text-align: center;
+        padding: 1.5rem;
+        background-color: #f9fafb;
+        border-radius: 6px;
+        border: 1px solid #e5e7eb;
+    }
+
+    /* Status label styling */
+    td:nth-child(3) {
+        font-weight: 500;
+    }
+
+    td:nth-child(3):before {
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-right: 0.5rem;
+    }
+
+    td:nth-child(3):not(:empty) {
+        display: flex;
+        align-items: center;
+    }
+
+    td:nth-child(3)[data-status="0"]:before {
+        background-color: #f59e0b; /* Pending: Amber */
+    }
+
+    td:nth-child(3)[data-status="1"]:before {
+        background-color: #10b981; /* Approved: Green */
+    }
+
+    td:nth-child(3)[data-status="2"]:before {
+        background-color: #ef4444; /* Rejected: Red */
+    }
+
+    td:nth-child(3)[data-status="unknown"]:before {
+        background-color: #6b7280; /* Unknown: Gray */
+    }
+
+    /* Responsive design */
+    @@media (max-width: 768px) {
+        table {
+            display: block;
+            overflow-x: auto;
+        }
+
+        th, td {
+            min-width: 120px;
+            font-size: 0.8rem;
+            padding: 0.5rem;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+        }
+
+        a[href="/Writer/Create"] {
+            width: 100%;
+            justify-content: center;
+            padding: 0.75rem;
+        }
+    }
+
+    /* Dark mode support */
+    @@media (prefers-color-scheme: dark) {
+        table {
+            background-color: #1f2937;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        thead {
+            background-color: #374151;
+            color: #e5e7eb;
+        }
+
+        th {
+            border-bottom: 2px solid #4b5563;
+        }
+
+        tbody tr {
+            background-color: #1f2937;
+        }
+
+        tbody tr:hover {
+            background-color: #374151;
+        }
+
+        td {
+            color: #d1d5db;
+            border-bottom: 1px solid #4b5563;
+        }
+
+        h2 {
+            color: #e5e7eb;
+        }
+
+        p {
+            color: #9ca3af;
+            background-color: #374151;
+            border: 1px solid #4b5563;
+        }
+
+        a[href="/Writer/Create"] {
+            background-color: #60a5fa;
+        }
+
+        a[href="/Writer/Create"]:hover {
+            background-color: #3b82f6;
+        }
+
+        td a {
+            color: #60a5fa;
+        }
+
+        td a:hover {
+            color: #3b82f6;
+        }
+    }
+</style>
+
+<h2>📝 Bài viết của tôi</h2>
+
+<a href="/Writer/Create">
+    + Tạo bài viết mới
+</a>
+
+@if (!Model.Any())
+{
+    <p>Bạn chưa có bài viết nào.</p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Tiêu đề</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var article = Model[i];
+                <tr>
+                    <td>@(@i + 1)</td>
+                    <td>@article.NewsTitle</td>
+                    <td data-status="@article.NewsStatus">@GetStatusLabel(article.NewsStatus)</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Writer", new { id = article.NewsArticleId })">
+                            ✏️ Chỉnh sửa
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

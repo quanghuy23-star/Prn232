@@ -90,6 +90,36 @@
         border-radius: 6px;
     }
 </style>
+<div class="d-flex justify-content-end mb-3">
+    @if (User.Identity.IsAuthenticated)
+    {
+        var role = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
+
+@if (role == "Admin")
+{
+    <a href="/AdminClient/AccountList" class="btn btn-outline-primary me-2">⚙️ Quản lý</a>
+}
+else if (role == "Staff")
+{
+    <a href="/Staff" class="btn btn-outline-primary me-2">⚙️ Quản lý</a>
+}
+else if (role == "Writer")
+{
+    <a href="/Writer/MyArticles" class="btn btn-outline-primary me-2">✍️ Viết bài</a>
+}
+        <form asp-controller="Login" asp-action="Logout" method="post" class="ms-2">
+            @Html.AntiForgeryToken()
+            <button type="submit" class="btn btn-outline-danger">🚪 Đăng xuất</button>
+        </form>
+    }
+    else
+    {
+        <a href="/Login" class="btn btn-success">🔐 Đăng nhập</a>
+    }
+</div>
+
+
+
 
 <div class="search-form">
     <form asp-action="Index" method="get">
@@ -106,34 +136,34 @@
                     <option value="30d">30 ngày qua</option>
                 </select>
             </div>
-            @* <div class="col-md-4">
+             <div class="col-md-4">
                 <label>Chuyên mục</label>
                 <select name="categoryName" class="form-select">
                     <option value="">Tất cả</option>
                     @foreach (var cat in categories)
                     {
-                        <option value="@cat.Name" selected="@(currentCategory == cat.Name ? "selected" : null)">
-                            @cat.Name
+                        <option value="@cat.CategoryName" selected="@(currentCategory == cat.CategoryName ? "selected" : null)">
+                            @cat.CategoryName
                         </option>
                     }
                 </select>
-            </div> *@
+            </div> 
         </div>
         <button type="submit" class="btn btn-purple mt-3">Lọc bài viết</button>
     </form>
 </div>
 <h3 class="mt-4 mb-3 text-purple">📚 Danh sách bài viết</h3>
 
-@* <div class="category-scroll">
+ <div class="category-scroll">
     <a class="@(string.IsNullOrEmpty(currentCategory) ? "active" : "")" asp-action="Index">Tất cả</a>
     @foreach (var cat in categories)
     {
-        <a class="@(currentCategory == cat.Name ? "active" : "")"
-           asp-action="Index" asp-route-categoryName="@cat.Name">
-            @cat.Name
+        <a class="@(currentCategory == cat.CategoryName ? "active" : "")"
+           asp-action="Index" asp-route-categoryName="@cat.CategoryName">
+            @cat.CategoryName
         </a>
     }
-</div> *@
+</div> 
 
 <div class="container">
     <div class="row">

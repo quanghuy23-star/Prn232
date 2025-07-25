@@ -113,9 +113,14 @@ namespace ProjectPRN232.Controllers
                 Message = $"Đã cập nhật vai trò cho {account.AccountName} thành {(Role)dto.Role}"
             });
         }
-
-
-
+        [HttpGet("all_Account")]
+        [Authorize(Roles = "Admin")]
+        public async Task<IActionResult> GetAllAccounts()
+        {
+            var accounts = await _accountRepo.GetAllAsync();
+            var dtos = _mapper.Map<List<SystemAccountDTO>>(accounts);
+            return Ok(dtos);
+        }
 
     }
 

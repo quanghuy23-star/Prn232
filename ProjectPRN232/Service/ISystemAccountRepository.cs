@@ -11,6 +11,6 @@ namespace ProjectPRN232.Service
         void Update(SystemAccount account);
         void Delete(SystemAccount account);
         Task SaveChangesAsync();
-
+        Task<List<SystemAccount>> GetAllAsync();
     }
 }

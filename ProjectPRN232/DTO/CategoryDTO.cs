@@ -15,6 +15,6 @@
         public bool IsActive { get; set; }
 
         // Danh sách danh mục con (đệ quy)
-        public List<CategoryDTO> Children { get; set; } = new();
+        public List<CategoryDTO>? Children { get; set; } = new();
     }
 }

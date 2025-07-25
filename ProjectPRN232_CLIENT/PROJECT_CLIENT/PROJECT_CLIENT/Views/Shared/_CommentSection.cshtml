@@ -1,0 +1,32 @@
+﻿@model int // NewsArticleId
+
+@inject PROJECT_CLIENT.Service.BaseService _baseService
+@using PROJECT_CLIENT.Models
+
+@{
+    var comments = await _baseService.GetData<List<CommentDTO>>($"Comment/news/{Model}");
+}
+
+<h3 class="text-lg font-semibold mb-3">Bình luận</h3>
+
+<!-- Form gửi bình luận mới -->
+<form asp-controller="Home" asp-action="AddComment" method="post" class="mb-4">
+    <input type="hidden" name="NewsArticleId" value="@Model" />
+    <textarea name="CommentText" class="w-full border rounded p-2" rows="3" placeholder="Nhập bình luận..."></textarea>
+    <button type="submit" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">Gửi bình luận</button>
+</form>
+
+<hr class="mb-4" />
+
+<!-- Hiển thị comment cha -->
+@if (comments != null && comments.Any())
+{
+    foreach (var cmt in comments)
+    {
+        @Html.Partial("_CommentItem", cmt)
+    }
+}
+else
+{
+    <p class="text-gray-500">Chưa có bình luận nào.</p>
+}
