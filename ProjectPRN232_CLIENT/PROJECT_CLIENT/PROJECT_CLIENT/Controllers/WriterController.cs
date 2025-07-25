@@ -33,6 +33,18 @@ namespace PROJECT_CLIENT.Controllers
                 throw;
             }
         }
+        // Hiển thị chi tiết bài viết
+        [HttpGet("Detail/{id}")]
+        public async Task<IActionResult> Detail(int id)
+        {
+            var article = await _baseService.GetData<ArticleDTO>($"News/my-articles/{id}");
+            if (article == null)
+                return NotFound();
+
+
+            return View(article);
+        }
+
 
         // Form tạo bài viết
         [HttpGet("Create")]
@@ -77,12 +89,27 @@ namespace PROJECT_CLIENT.Controllers
         [HttpGet("Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            var article = await _baseService.GetData<NewsArticleUpdateDTO>($"News/my-articles/{id}");
+            var article = await _baseService.GetData<ArticleDTO>($"News/my-articles/{id}");
             if (article == null) return NotFound();
+            var dto = new NewsArticleUpdateDTO
+            {
+                NewsArticleId = article.NewsArticleId,
+                NewsTitle = article.NewsTitle,
+                Headline = article.Headline,
+                NewsContent = article.NewsContent,
+                NewsSource = article.NewsSource,
+                CategoryId = article.CategoryId,
+                ImagePath = article.ImagePath,
+                NewsStatus = article.NewsStatus,
 
+                // ⚠️ QUAN TRỌNG: gán TagIds từ danh sách Tags
+                TagIds = article.Tags?.Select(t => t.TagId).ToList() ?? new List<int>()
+            };
             ViewBag.Categories = await _baseService.GetData<List<CategoryDTO>>("News/active-categories");
             ViewBag.AllTags = await _baseService.GetData<List<TagDTO>>("News/tags");
-            return View(article);
+            //Console.WriteLine("TagIds: " + string.Join(",", article.TagIds ?? new List<int>()));
+
+            return View(dto);
         }
 
         [HttpPost("Edit/{id}")]

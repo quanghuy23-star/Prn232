@@ -1,4 +1,5 @@
 ﻿@model PROJECT_CLIENT.DTO.NewsArticleUpdateDTO
+@using PROJECT_CLIENT.DTO
 
 @{
     ViewBag.Title = "Sửa bài viết";
@@ -56,14 +57,15 @@
     <div class="mb-6">
         <label class="font-semibold">Chọn Tag</label>
         <select asp-for="TagIds" multiple class="border border-gray-300 p-2 w-full h-40 rounded">
-            @foreach (var tag in allTags)
+            @foreach (var tag in ViewBag.AllTags as List<TagDTO>)
             {
-                <option value="@tag.TagId" selected="@(Model.TagIds?.Contains(tag.TagId) ?? false)">
+                <option value="@tag.TagId" selected="@(Model.TagIds.Contains(tag.TagId))">
                     @tag.TagName
                 </option>
             }
         </select>
     </div>
+
 
     <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded transition duration-200">
         💾 Cập nhật

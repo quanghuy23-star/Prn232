@@ -266,6 +266,9 @@ else
                         <a href="@Url.Action("Edit", "Writer", new { id = article.NewsArticleId })">
                             ✏️ Chỉnh sửa
                         </a>
+                        <a href="@Url.Action("Detail", "Writer", new { id = article.NewsArticleId })" class="text-blue-600 hover:underline mr-2">
+                            👁 Xem
+                        </a>
                     </td>
                 </tr>
             }

@@ -12,7 +12,7 @@ namespace PROJECT_CLIENT.Controllers
     {
         private readonly BaseService _baseService = new();
 
-        public async Task<IActionResult> Index(string? categoryName, string? searchTitle, string? time, int page = 1, int pageSize = 8)
+        public async Task<IActionResult> Index(string? categoryName, string? searchTitle, string? time, int page = 1, int pageSize = 7)
         {
             var articles = await _baseService.GetData<IEnumerable<ArticleDTO>>("News");
 

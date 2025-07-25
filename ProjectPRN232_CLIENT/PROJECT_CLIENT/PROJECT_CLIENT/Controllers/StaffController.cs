@@ -56,6 +56,17 @@ namespace PROJECT_CLIENT.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public async Task<IActionResult> An(int id)
+        {
+            var status = await _baseService.PutData<object>($"Admin/{id}/reject", null);
+            if (status == HttpStatusCode.OK)
+                TempData["Success"] = "Bài viết đã bị ẩn.";
+            else
+                TempData["Error"] = "Lỗi khi ẩn bài viết.";
+
+            return RedirectToAction("Index");
+        }
 
         // ====================== CATEGORY MANAGEMENT ======================
 

@@ -284,6 +284,16 @@
         </form>
     </div>
 
+    <div class="category-scroll">
+        <a class="@(string.IsNullOrEmpty(currentCategory) ? "active" : "")" asp-action="Index">Tất cả</a>
+        @foreach (var cat in categories)
+        {
+            <a class="@(currentCategory == cat.CategoryName ? "active" : "")"
+               asp-action="Index" asp-route-categoryName="@cat.CategoryName">
+                @cat.CategoryName
+            </a>
+        }
+    </div>
     <h3 class="text-purple">📚 Tin tức nổi bật</h3>
     @if (Model.Any())
     {
@@ -296,16 +306,7 @@
         </div>
     }
 
-    <div class="category-scroll">
-        <a class="@(string.IsNullOrEmpty(currentCategory) ? "active" : "")" asp-action="Index">Tất cả</a>
-        @foreach (var cat in categories)
-        {
-            <a class="@(currentCategory == cat.CategoryName ? "active" : "")"
-               asp-action="Index" asp-route-categoryName="@cat.CategoryName">
-                @cat.CategoryName
-            </a>
-        }
-    </div>
+    
 
     <h3 class="text-purple mt-4">📑 Tin tức mới nhất</h3>
     <div class="news-grid">

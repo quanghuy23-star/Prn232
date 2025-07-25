@@ -101,6 +101,9 @@
                             <button type="submit" style="color: #e53e3e; background: none; border: none; cursor: pointer;">Từ chối</button>
                         </form>
                     }
+                    <form asp-action="An" asp-route-id="@article.NewsArticleId" method="post" style="display:inline; margin-left: 4px;">
+                        <button type="submit" style="color: #e53e3e; background: none; border: none; cursor: pointer;">Ẩn</button>
+                    </form>
                   @*   <a asp-action="Edit" asp-route-id="@article.NewsArticleId" style="color: #3182ce; margin-left: 6px;">Sửa</a>
                     <a asp-action="Delete" asp-route-id="@article.NewsArticleId" style="color: #4a5568; margin-left: 6px;">Xóa</a> *@
                 </td>

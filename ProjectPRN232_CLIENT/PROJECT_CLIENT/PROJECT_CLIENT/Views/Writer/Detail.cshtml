@@ -1,0 +1,35 @@
+﻿@model PROJECT_CLIENT.DTO.ArticleDTO
+
+@{
+    ViewBag.Title = "Chi tiết bài viết";
+    string GetStatusLabel(int status) =>
+        status switch
+        {
+            0 => "⏳ Chờ duyệt",
+            1 => "✅ Đã duyệt",
+            2 => "❌ Từ chối",
+            _ => "Không rõ"
+        };
+}
+
+<h2 class="text-xl font-bold mb-4">📖 Chi tiết bài viết</h2>
+
+<div class="bg-white p-6 rounded shadow-md">
+    <p><strong>Tiêu đề:</strong> @Model.NewsTitle</p>
+    <p><strong>Tóm tắt:</strong> @Model.Headline</p>
+    <p><strong>Nội dung:</strong></p>
+    <div class="whitespace-pre-line">@Model.NewsContent</div>
+    <p><strong>Nguồn:</strong> @Model.NewsSource</p>
+    <p><strong>Trạng thái:</strong> @GetStatusLabel(Model.NewsStatus)</p>
+    <p><strong>Danh mục:</strong> @Model.CategoryName</p>
+    <p><strong>Tags:</strong> @string.Join(", ", Model.Tags.Select(t => t.TagName))</p>
+    @if (!string.IsNullOrEmpty(Model.ImagePath))
+    {
+        <p><strong>Ảnh:</strong></p>
+        <img src="@Model.ImagePath" alt="Ảnh bài viết" class="max-w-xs" />
+    }
+</div>
+
+<a asp-action="MyArticles" class="mt-4 inline-block bg-gray-300 hover:bg-gray-400 text-black font-semibold px-4 py-2 rounded">
+    ← Quay lại danh sách
+</a>
