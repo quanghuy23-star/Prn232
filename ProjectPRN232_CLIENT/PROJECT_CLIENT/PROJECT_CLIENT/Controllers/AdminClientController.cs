@@ -15,8 +15,20 @@ namespace PROJECT_CLIENT.Controllers
 
         public async Task<IActionResult> AccountList()
         {
-            var accounts = await _baseService.GetData<List<SystemAccountDTO>>("Admin/all_Account");
-            return View(accounts);
+            try
+            {
+                var accounts = await _baseService.GetData<List<SystemAccountDTO>>("Admin/all_Account");
+                return View(accounts);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                if (ex.Message == "Unauthorized: You must log in.")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                throw;
+            }
         }
 
         [HttpPost]

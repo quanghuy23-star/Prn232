@@ -24,12 +24,18 @@ namespace PROJECT_CLIENT.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginDTO dto)
         {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Error = "Vui lòng điền đầy đủ thông tin.";
+                return View();
+            }
+
             var token = await _baseService.LoginAsync(dto);
 
             if (string.IsNullOrEmpty(token))
             {
-                ViewBag.Error = "Invalid login.";
-                return View();
+                ViewBag.Error = "Email hoặc mật khẩu không đúng.";
+                return View("Index");
             }
 
             HttpContext.Session.SetString("JWTToken", token);

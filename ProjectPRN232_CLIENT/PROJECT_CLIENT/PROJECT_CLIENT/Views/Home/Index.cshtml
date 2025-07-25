@@ -4,11 +4,71 @@
     var currentCategory = Context.Request.Query["categoryName"].ToString();
 }
 
-
 <style>
-    .text-purple {
-        color: #6f42c1;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
+
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+    }
+
+    .header {
+        background-color: #0066cc;
+        color: white;
+        padding: 10px 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+        .header h1 {
+            font-size: 1.8em;
+        }
+
+        .header nav a {
+            color: white;
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: bold;
+        }
+
+            .header nav a:hover {
+                text-decoration: underline;
+            }
+
+    .toggle-btn {
+        background-color: #0066cc;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 20px 0;
+    }
+
+        .toggle-btn:hover {
+            background-color: #0066cc;
+        }
+
+    .search-form {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: none;
+    }
+
+        .search-form.active {
+            display: block;
+        }
 
     .category-scroll {
         display: flex;
@@ -23,7 +83,7 @@
             display: inline-block;
             margin-right: 15px;
             text-decoration: none;
-            color: #6f42c1;
+            color: #0066cc;
             padding: 6px 12px;
             border-radius: 5px;
             white-space: nowrap;
@@ -34,151 +94,274 @@
 
             .category-scroll a:hover {
                 background-color: #f3e9fd;
-                color: #6f42c1;
+                color: #0066cc;
             }
 
             .category-scroll a.active {
-                background-color: #6f42c1;
+                background-color: #0066cc;
                 color: #fff !important;
             }
 
-    .search-form {
-        background-color: #f8f9fa;
-        padding: 15px;
-        border-radius: 10px;
+    .main-content {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .featured-article {
         margin-bottom: 20px;
     }
 
-    .card-title {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: #333;
-        min-height: 3em;
+        .featured-article img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .featured-article h2 {
+            font-size: 1.5em;
+            margin: 10px 0;
+            color: #0066cc;
+        }
+
+        .featured-article p {
+            color: #666;
+        }
+
+    .news-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
     }
 
-    .card-text {
-        font-size: 0.95rem;
-        color: #555;
-    }
-
-    .card-img-top {
-        height: 180px;
-        object-fit: cover;
-    }
-
-    .card {
+    .news-card {
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        overflow: hidden;
         transition: transform 0.2s ease-in-out;
     }
 
-        .card:hover {
+        .news-card:hover {
             transform: scale(1.02);
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
         }
 
-    .btn-purple {
-        background-color: #6f42c1;
-        border-color: #6f42c1;
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+    .news-card-content {
+        padding: 10px;
+    }
+
+        .news-card-content h3 {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .news-card-content p {
+            font-size: 0.9em;
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .news-card-content a {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #0066cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+            .news-card-content a:hover {
+                background-color: #0066cc;
+            }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        padding: 20px 0;
+    }
+
+    .page-item {
+        margin: 0 5px;
+    }
+
+        .page-item .page-link {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            color: #5a5a5a;
+            text-decoration: none;
+            border-radius: 4px;
+            background-color: #f8f9fa;
+        }
+
+        .page-item.active .page-link {
+            background-color: #0066cc;
+            color: white;
+            border-color: #0066cc;
+        }
+
+        .page-item.disabled .page-link {
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+    .footer {
+        background-color: #0066cc;
         color: white;
+        text-align: center;
+        padding: 10px 0;
+        margin-top: 20px;
+    }
+
+    .form-select, .form-control {
+        border-radius: 6px;
+        margin-bottom: 10px;
+    }
+
+    .btn-purple {
+        background-color: #0066cc;
+        border-color: #0066cc;
+        color: white;
+        padding: 8px 15px;
     }
 
         .btn-purple:hover {
             background-color: #59329d;
             border-color: #59329d;
         }
-
-    .form-select, .form-control {
-        border-radius: 6px;
-    }
 </style>
-<div class="d-flex justify-content-end mb-3">
-    @if (User.Identity.IsAuthenticated)
-    {
-        var role = User.Claims.FirstOrDefault(c => c.Type == "http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
 
-@if (role == "Admin")
-{
-    <a href="/AdminClient/AccountList" class="btn btn-outline-primary me-2">⚙️ Quản lý</a>
-}
-else if (role == "Staff")
-{
-    <a href="/Staff" class="btn btn-outline-primary me-2">⚙️ Quản lý</a>
-}
-else if (role == "Writer")
-{
-    <a href="/Writer/MyArticles" class="btn btn-outline-primary me-2">✍️ Viết bài</a>
-}
-        <form asp-controller="Login" asp-action="Logout" method="post" class="ms-2">
-            @Html.AntiForgeryToken()
-            <button type="submit" class="btn btn-outline-danger">🚪 Đăng xuất</button>
-        </form>
-    }
-    else
-    {
-        <a href="/Login" class="btn btn-success">🔐 Đăng nhập</a>
-    }
-</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const toggleBtn = document.querySelector('.toggle-btn');
+        const searchForm = document.querySelector('.search-form');
 
+        toggleBtn.addEventListener('click', function () {
+            searchForm.classList.toggle('active');
+            toggleBtn.textContent = searchForm.classList.contains('active') ? 'Ẩn bộ lọc' : 'Hiển thị bộ lọc';
+        });
+    });
+</script>
 
-
-
-<div class="search-form">
-    <form asp-action="Index" method="get">
-        <input type="text" name="searchTitle" class="form-control mb-3" placeholder="🔎 Tìm kiếm bài viết..."
-               value="@Context.Request.Query["searchTitle"]" />
-
-        <div class="row">
-            <div class="col-md-4">
-                <label>Thời gian</label>
-                <select name="time" class="form-select">
-                    <option value="">Tất cả</option>
-                    <option value="24h">24 giờ qua</option>
-                    <option value="7d">7 ngày qua</option>
-                    <option value="30d">30 ngày qua</option>
-                </select>
+<div class="main-content">
+    <button class="toggle-btn">Hiển thị bộ lọc</button>
+    <div class="search-form">
+        <form asp-action="Index" method="get">
+            <input type="text" name="searchTitle" class="form-control mb-3" placeholder="🔎 Tìm kiếm bài viết..."
+                   value="@Context.Request.Query["searchTitle"]" />
+            <div class="row">
+                <div class="col-md-4">
+                    <label>Thời gian</label>
+                    <select name="time" class="form-select">
+                        <option value="">Tất cả</option>
+                        <option value="24h">24 giờ qua</option>
+                        <option value="7d">7 ngày qua</option>
+                        <option value="30d">30 ngày qua</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label>Chuyên mục</label>
+                    <select name="categoryName" class="form-select">
+                        <option value="">Tất cả</option>
+                        @foreach (var cat in categories)
+                        {
+                            <option value="@cat.CategoryName" selected="@(currentCategory == cat.CategoryName ? "selected" : null)">
+                                @cat.CategoryName
+                            </option>
+                        }
+                    </select>
+                </div>
             </div>
-             <div class="col-md-4">
-                <label>Chuyên mục</label>
-                <select name="categoryName" class="form-select">
-                    <option value="">Tất cả</option>
-                    @foreach (var cat in categories)
-                    {
-                        <option value="@cat.CategoryName" selected="@(currentCategory == cat.CategoryName ? "selected" : null)">
-                            @cat.CategoryName
-                        </option>
-                    }
-                </select>
-            </div> 
-        </div>
-        <button type="submit" class="btn btn-purple mt-3">Lọc bài viết</button>
-    </form>
-</div>
-<h3 class="mt-4 mb-3 text-purple">📚 Danh sách bài viết</h3>
+            <button type="submit" class="btn btn-purple mt-3">Lọc bài viết</button>
+        </form>
+    </div>
 
- <div class="category-scroll">
-    <a class="@(string.IsNullOrEmpty(currentCategory) ? "active" : "")" asp-action="Index">Tất cả</a>
-    @foreach (var cat in categories)
+    <h3 class="text-purple">📚 Tin tức nổi bật</h3>
+    @if (Model.Any())
     {
-        <a class="@(currentCategory == cat.CategoryName ? "active" : "")"
-           asp-action="Index" asp-route-categoryName="@cat.CategoryName">
-            @cat.CategoryName
-        </a>
+        var featured = Model.First();
+        <div class="featured-article">
+            <img src="@featured.ImagePath" alt="Featured News" />
+            <h2>@featured.NewsTitle</h2>
+            <p>@featured.NewsContent.Substring(0, Math.Min(featured.NewsContent.Length, 200))...</p>
+            <a asp-controller="Home" asp-action="Details" asp-route-id="@featured.NewsArticleId" class="btn btn-purple">Xem chi tiết</a>
+        </div>
     }
-</div> 
 
-<div class="container">
-    <div class="row">
-        @foreach (var article in Model)
+    <div class="category-scroll">
+        <a class="@(string.IsNullOrEmpty(currentCategory) ? "active" : "")" asp-action="Index">Tất cả</a>
+        @foreach (var cat in categories)
         {
-            <div class="col-md-3 mb-5">
-                <div class="card h-100">
-                    <img src="@article.ImagePath" class="card-img-top" alt="image" />
-                    <div class="card-body d-flex flex-column">
-                        <h5 class="card-title">@article.NewsTitle</h5>
-                        <p class="card-text">@article.NewsContent.Substring(0, Math.Min(article.NewsContent.Length, 150))...</p>
-                        <a asp-controller="Home" asp-action="Details" asp-route-id="@article.NewsArticleId" class="btn btn-purple mt-2">Xem chi tiết</a>
-                    </div>
+            <a class="@(currentCategory == cat.CategoryName ? "active" : "")"
+               asp-action="Index" asp-route-categoryName="@cat.CategoryName">
+                @cat.CategoryName
+            </a>
+        }
+    </div>
+
+    <h3 class="text-purple mt-4">📑 Tin tức mới nhất</h3>
+    <div class="news-grid">
+        @foreach (var article in Model.Skip(1))
+        {
+            <div class="news-card">
+                <img src="@article.ImagePath" alt="News Image" />
+                <div class="news-card-content">
+                    <h3>@article.NewsTitle</h3>
+                    <p>@article.NewsContent.Substring(0, Math.Min(article.NewsContent.Length, 100))...</p>
+                    <a asp-controller="Home" asp-action="Details" asp-route-id="@article.NewsArticleId">Xem chi tiết</a>
                 </div>
             </div>
         }
     </div>
+
+    @{
+        int currentPage = ViewBag.CurrentPage ?? 1;
+        int totalPages = ViewBag.TotalPages ?? 1;
+    }
+
+    <nav>
+        <ul class="pagination">
+            <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(currentPage - 1)"
+                   asp-route-searchTitle="@Context.Request.Query["searchTitle"]"
+                   asp-route-categoryName="@Context.Request.Query["categoryName"]"
+                   asp-route-time="@Context.Request.Query["time"]">
+                    ⬅️ Trang trước
+                </a>
+            </li>
+
+            @for (int i = 1; i <= totalPages; i++)
+            {
+                <li class="page-item @(i == currentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-page="@i"
+                       asp-route-searchTitle="@Context.Request.Query["searchTitle"]"
+                       asp-route-categoryName="@Context.Request.Query["categoryName"]"
+                       asp-route-time="@Context.Request.Query["time"]">
+                        @i
+                    </a>
+                </li>
+            }
+
+            <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                <a class="page-link" asp-action="Index"
+                   asp-route-page="@(currentPage + 1)"
+                   asp-route-searchTitle="@Context.Request.Query["searchTitle"]"
+                   asp-route-categoryName="@Context.Request.Query["categoryName"]"
+                   asp-route-time="@Context.Request.Query["time"]">
+                    Trang sau ➡️
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
+

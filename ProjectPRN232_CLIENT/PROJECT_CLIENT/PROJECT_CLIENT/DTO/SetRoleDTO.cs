@@ -9,7 +9,7 @@
     {
         Staff = 1,
         Writer = 2,
-        Admin = 3,
+        //Admin = 3,
         Reader = 4
     }
 }

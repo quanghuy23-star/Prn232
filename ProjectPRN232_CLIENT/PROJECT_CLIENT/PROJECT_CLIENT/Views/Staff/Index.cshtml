@@ -3,130 +3,106 @@
 @{
     ViewData["Title"] = "Quản lý bài viết";
 
-    // Hàm rút gọn chuỗi
     string Truncate(string text, int maxLen) =>
         string.IsNullOrEmpty(text)
             ? ""
             : (text.Length > maxLen ? text.Substring(0, maxLen) + "…" : text);
 }
 
-<h2 class="text-2xl font-semibold mb-4">Quản lý bài viết</h2>
-<div class="button-container mb-3">
-    <a href="/Staff/Tags" class="btn btn-blue">Quản lý Tag</a>
-    <a href="/Staff/Category" class="btn btn-green">Quản lý Category</a>
+<h2 style="font-size: 24px; font-weight: 600; margin-bottom: 16px;">Quản lý bài viết</h2>
+
+<div style="margin-bottom: 16px;">
+    <a href="/Staff/Tags" style="background-color: #3490dc; color: white; padding: 8px 12px; border-radius: 6px; margin-right: 10px; text-decoration: none;">Quản lý Tag</a>
+    <a href="/Staff/Category" style="background-color: #38c172; color: white; padding: 8px 12px; border-radius: 6px; text-decoration: none;">Quản lý Category</a>
 </div>
-
-
-
 
 @if (TempData["Success"] != null)
 {
-    <div class="bg-green-100 text-green-800 p-3 rounded mb-4">
+    <div style="background-color: #c6f6d5; color: #22543d; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
         @TempData["Success"]
     </div>
 }
 @if (TempData["Error"] != null)
 {
-    <div class="bg-red-100 text-red-800 p-3 rounded mb-4">
+    <div style="background-color: #fed7d7; color: #742a2a; padding: 12px; border-radius: 6px; margin-bottom: 16px;">
         @TempData["Error"]
     </div>
 }
 
-
-<table class="table-auto w-full border rounded shadow">
-    <thead class="bg-gray-200 text-left">
+<table style="width: 100%; border-collapse: collapse; box-shadow: 0 0 6px rgba(0,0,0,0.1);">
+    <thead style="background-color: #edf2f7; text-align: left;">
         <tr>
-            <th class="px-4 py-2">Tiêu đề</th>
-            <th class="px-4 py-2">Phụ đề</th>
-            <th class="px-4 py-2">Tác giả</th>
-            <th class="px-4 py-2">Người sửa</th>
-            <th class="px-4 py-2">Trạng thái</th>
-            <th class="px-4 py-2">Ngày tạo</th>
-            <th class="px-4 py-2">Ngày sửa</th>
-            <th class="px-4 py-2">Nguồn</th>
-            <th class="px-4 py-2">Danh mục</th>
-            <th class="px-4 py-2">Danh mục cha</th>
-            <th class="px-4 py-2">Lượt xem</th>
-            <th class="px-4 py-2">Tags</th>
-            <th class="px-4 py-2">Hình ảnh</th>
-            <th class="px-4 py-2">Nội dung</th>
-            <th class="px-4 py-2">Hành động</th>
+            <th style="padding: 8px 12px;">Tiêu đề</th>
+            <th style="padding: 8px 12px;">Phụ đề</th>
+            <th style="padding: 8px 12px;">Tác giả</th>
+          @*   <th style="padding: 8px 12px;">Người sửa</th> *@
+            <th style="padding: 8px 12px;">Trạng thái</th>
+            <th style="padding: 8px 12px;">Ngày tạo</th>
+            <th style="padding: 8px 12px;">Ngày sửa</th>
+            <th style="padding: 8px 12px;">Nguồn</th>
+            <th style="padding: 8px 12px;">Danh mục</th>
+            <th style="padding: 8px 12px;">Tags</th>
+            <th style="padding: 8px 12px;">Hình ảnh</th>
+            <th style="padding: 8px 12px;">Nội dung</th>
+            <th style="padding: 8px 12px;">Hành động</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var article in Model)
         {
-            <tr class="border-b hover:bg-gray-50 align-top">
-                <td class="px-4 py-2 font-medium">@article.NewsTitle</td>
-                <td class="px-4 py-2">@article.Headline</td>
-                <td class="px-4 py-2">@article.CreatedByName</td>
-                <td class="px-4 py-2">@(!string.IsNullOrEmpty(article.UpdatedByName) ? article.UpdatedByName : "–")</td>
-
-                <td class="px-4 py-2">
+            <tr style="border-bottom: 1px solid #e2e8f0; vertical-align: top;">
+                <td style="padding: 8px 12px; font-weight: 500;">@article.NewsTitle</td>
+                <td style="padding: 8px 12px;">@article.Headline</td>
+                <td style="padding: 8px 12px;">@article.CreatedByName</td>
+              @*   <td style="padding: 8px 12px;">@(!string.IsNullOrEmpty(article.UpdatedByName) ? article.UpdatedByName : "–")</td> *@
+                <td style="padding: 8px 12px;">
                     @switch (article.NewsStatus)
                     {
                         case 0:
-                            <span class="text-yellow-600 font-medium">Chờ duyệt</span>
+                            <span style="color: #d69e2e; font-weight: 500;">Chờ duyệt</span>
                             ; break;
                         case 1:
-                            <span class="text-green-600 font-medium">Đã duyệt</span>
+                            <span style="color: #38a169; font-weight: 500;">Đã duyệt</span>
                             ; break;
                         case 2:
-                            <span class="text-red-600 font-medium">Từ chối</span>
+                            <span style="color: #e53e3e; font-weight: 500;">Từ chối</span>
                             ; break;
                     }
                 </td>
-
-                <td class="px-4 py-2">@article.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
-                <td class="px-4 py-2">
-                    @(
-                        article.ModifiedDate.HasValue
-                        ? article.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm")
-                        : "–")
+                <td style="padding: 8px 12px;">@article.CreatedDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td style="padding: 8px 12px;">
+                    @(article.ModifiedDate.HasValue ? article.ModifiedDate.Value.ToString("dd/MM/yyyy HH:mm") : "–")
                 </td>
-
-                <td class="px-4 py-2">@article.NewsSource</td>
-                <td class="px-4 py-2">@article.CategoryName</td>
-                <td class="px-4 py-2">@(!string.IsNullOrEmpty(article.ParentCategoryName) ? article.ParentCategoryName : "–")</td>
-                <td class="px-4 py-2 text-center">@article.ViewCount</td>
-
-                <td class="px-4 py-2">
+                <td style="padding: 8px 12px;">@article.NewsSource</td>
+                <td style="padding: 8px 12px;">@article.CategoryName</td>
+                <td style="padding: 8px 12px;">
                     @(article.Tags?.Any() == true
                         ? string.Join(", ", article.Tags.Select(t => t.TagName))
                         : "–")
                 </td>
-
-                <td class="px-4 py-2">
+                <td style="padding: 8px 12px;">
                     @if (!string.IsNullOrEmpty(article.ImagePath))
                     {
-                        <img src="@article.ImagePath" alt="Ảnh bìa"
-                             class="h-16 w-auto object-cover rounded" />
+                        <img src="@article.ImagePath" alt="Ảnh bìa" style="height: 64px; width: auto; object-fit: cover; border-radius: 4px;" />
                     }
                     else
                     {
                         <span>–</span>
                     }
                 </td>
-
-                <td class="px-4 py-2">@Truncate(article.NewsContent, 120)</td>
-
-                <td class="px-4 py-2 space-x-2 whitespace-nowrap">
-                    @* Chỉ cho phép duyệt/từ chối khi bài đang chờ hoặc bị từ chối *@
+                <td style="padding: 8px 12px;">@Truncate(article.NewsContent, 120)</td>
+                <td style="padding: 8px 12px; white-space: nowrap;">
                     @if (article.NewsStatus == 0 || article.NewsStatus == 2)
                     {
-                        <form asp-action="Approve" asp-route-id="@article.NewsArticleId" method="post" class="inline">
-                            <button type="submit" class="text-green-700 hover:underline bg-transparent border-none p-0 cursor-pointer">
-                                Duyệt
-                            </button>
+                        <form asp-action="Approve" asp-route-id="@article.NewsArticleId" method="post" style="display:inline;">
+                            <button type="submit" style="color: #38a169; background: none; border: none; cursor: pointer;">Duyệt</button>
                         </form>
-                        <form asp-action="Reject" asp-route-id="@article.NewsArticleId" method="post" class="inline ml-1">
-                            <button type="submit" class="text-red-700 hover:underline bg-transparent border-none p-0 cursor-pointer">
-                                Từ chối
-                            </button>
+                        <form asp-action="Reject" asp-route-id="@article.NewsArticleId" method="post" style="display:inline; margin-left: 4px;">
+                            <button type="submit" style="color: #e53e3e; background: none; border: none; cursor: pointer;">Từ chối</button>
                         </form>
                     }
-                    <a asp-action="Edit" asp-route-id="@article.NewsArticleId" class="text-blue-600 hover:underline">Sửa</a>
-                    <a asp-action="Delete" asp-route-id="@article.NewsArticleId" class="text-gray-600 hover:underline">Xóa</a>
+                  @*   <a asp-action="Edit" asp-route-id="@article.NewsArticleId" style="color: #3182ce; margin-left: 6px;">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@article.NewsArticleId" style="color: #4a5568; margin-left: 6px;">Xóa</a> *@
                 </td>
             </tr>
         }

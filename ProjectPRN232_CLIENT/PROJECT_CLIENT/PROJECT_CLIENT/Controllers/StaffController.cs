@@ -11,8 +11,20 @@ namespace PROJECT_CLIENT.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var articles = await _baseService.GetData<IEnumerable<ArticleDTO>>("Admin/all");
-            return View(articles);
+            try
+            {
+                var articles = await _baseService.GetData<IEnumerable<ArticleDTO>>("Admin/all");
+                return View(articles);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                if (ex.Message == "Unauthorized: You must log in.")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                throw;
+            }
         }
 
         public async Task<IActionResult> Details(int id)

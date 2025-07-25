@@ -18,8 +18,20 @@ namespace PROJECT_CLIENT.Controllers
         [HttpGet("MyArticles")]
         public async Task<IActionResult> MyArticles()
         {
-            var articles = await _baseService.GetData<List<ArticleDTO>>("News/my-articles");
-            return View(articles);
+            try
+            {
+                var articles = await _baseService.GetData<List<ArticleDTO>>("News/my-articles");
+                return View(articles);
+            }
+            catch (UnauthorizedAccessException ex)
+            {
+                if (ex.Message == "Unauthorized: You must log in.")
+                {
+                    return RedirectToAction("Index", "Login");
+                }
+
+                throw;
+            }
         }
 
         // Form tạo bài viết

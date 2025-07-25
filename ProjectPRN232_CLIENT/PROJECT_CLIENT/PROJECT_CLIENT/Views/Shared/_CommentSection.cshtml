@@ -13,7 +13,9 @@
 <form asp-controller="Home" asp-action="AddComment" method="post" class="mb-4">
     <input type="hidden" name="NewsArticleId" value="@Model" />
     <textarea name="CommentText" class="w-full border rounded p-2" rows="3" placeholder="Nhập bình luận..."></textarea>
-    <button type="submit" class="mt-2 bg-blue-600 text-white px-4 py-2 rounded">Gửi bình luận</button>
+    <button type="submit" class="bg-[#0066cc] text-white px-4 py-2 rounded hover:bg-[#005bb5]">
+        Gửi bình luận
+    </button>
 </form>
 
 <hr class="mb-4" />

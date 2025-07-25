@@ -6,65 +6,219 @@
 }
 
 <style>
-    .text-purple {
-        color: #6f42c1;
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        background-color: #f5f5f5;
     }
 
-    .btn-purple {
-        background-color: #6f42c1;
-        border-color: #6f42c1;
-        color: white;
+    .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 0;
+        background-color: #fff;
+        border: 1px solid #ddd;
     }
 
-        .btn-purple:hover {
-            background-color: #59329d;
-            border-color: #59329d;
+    .header {
+        background-color: #0066cc;
+        color: #fff;
+        padding: 10px 20px;
+        text-align: center;
+        font-size: 1.5em;
+        font-weight: bold;
+    }
+
+    .article-content {
+        padding: 20px;
+    }
+
+    .article-title {
+        font-size: 2em;
+        color: #0066cc;
+        margin-bottom: 10px;
+        font-weight: 700;
+    }
+
+    .article-meta {
+        font-size: 0.9em;
+        color: #666;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+        .article-meta img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            margin-right: 10px;
         }
 
-    .dropdown-menu {
-        min-width: 220px;
+        .article-meta span {
+            margin-right: 10px;
+        }
+
+    .social-buttons {
+        margin-bottom: 15px;
+    }
+
+        .social-buttons button {
+            background-color: #0066cc;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 5px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            .social-buttons button:hover {
+                background-color: #0052a3;
+            }
+
+    .article-image {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .article-text {
+        font-size: 1.1em;
+        color: #333;
+        line-height: 1.8;
+    }
+
+    .like-comment {
+        margin-top: 15px;
+        display: flex;
+        align-items: center;
+    }
+
+        .like-comment button {
+            background-color: #0066cc;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 10px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+            .like-comment button:hover {
+                background-color: #0052a3;
+            }
+
+    .comment-section {
+        margin-top: 20px;
+        border-top: 1px solid #ddd;
+        padding-top: 20px;
     }
 
     .comment-box {
         background-color: #f9f9f9;
-        border-radius: 8px;
-        padding: 15px;
+        padding: 10px;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        border: 1px solid #eee;
     }
 
     .comment-meta {
-        font-size: 0.9rem;
+        font-size: 0.9em;
         color: #666;
-    }
-
-    .comment-actions {
-        float: right;
+        margin-bottom: 5px;
     }
 
     .comment-content {
-        margin-top: 4px;
+        margin-top: 5px;
+        color: #333;
     }
 
-    .article-image {
-        max-height: 400px;
-        object-fit: cover;
+    .comment-input {
         width: 100%;
-        border-radius: 8px;
-        margin-bottom: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        resize: vertical;
+    }
+
+    .btn-submit-comment {
+        background-color: #0066cc;
+        color: #fff;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 3px;
+        cursor: pointer;
+    }
+
+        .btn-submit-comment:hover {
+            background-color: #0052a3;
+        }
+
+    #related-articles {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #ddd;
+    }
+
+        #related-articles h4 {
+            color: #0066cc;
+            margin-bottom: 10px;
+        }
+
+        #related-articles li {
+            margin-bottom: 10px;
+        }
+
+        #related-articles a {
+            text-decoration: none;
+            color: #0066cc;
+        }
+
+            #related-articles a:hover {
+                text-decoration: underline;
+            }
+
+    .footer {
+        background-color: #0066cc;
+        color: #fff;
+        text-align: center;
+        padding: 10px;
+        margin-top: 20px;
     }
 </style>
 
+<div class="container">
+    
+    <div class="article-content">
+        <!-- Tiêu đề bài viết -->
+        <h1 class="article-title">@Model.NewsTitle</h1>
 
-<!-- Ảnh đầu bài -->
-@if (!string.IsNullOrEmpty(Model.ImagePath))
-{
-    <img src="@Model.ImagePath" class="article-image" alt="article image" />
-}
+        <!-- Thông tin meta -->
+        <div class="article-meta">
+            <img src="https://static.thanhnien.com.vn/thanhnien.vn/image/ava_inter.png" alt="Author Avatar" />
+            <span>@Model.CreatedByName</span>
+            <span>@Model.CreatedDate.ToString("dd/MM/yyyy HH:mm") GMT+7</span>
+        </div>
 
+        <!-- Ảnh bài viết -->
+        @if (!string.IsNullOrEmpty(Model.ImagePath))
+        {
+            <img src="@Model.ImagePath" class="article-image" alt="article image" />
+        }
+        <!-- Nội dung bài viết -->
+        <div class="article-text">
+            @Model.NewsContent
+        </div>  
+    </div>
 <!-- Thông tin bài viết -->
-<h2 class="text-purple">@Model.NewsTitle</h2>
-<p>@Model.NewsContent</p>
 <p><strong>Chuyên mục:</strong> @Model.CategoryName</p>
-<p><strong>Tác giả:</strong> @Model.CreatedByName</p>
+
 <p>
     <strong>Tags:</strong>
     @foreach (var tag in Model.Tags)
@@ -76,7 +230,7 @@
 </p>
 
 <p><strong>Nguồn:</strong> @Model.NewsSource</p>
-<p><strong>Ngày tạo:</strong> @Model.CreatedDate.ToString("dd/MM/yyyy HH:mm")</p>
+
 
 
 <div class="mt-3">
@@ -90,50 +244,11 @@
 <!-- Render Partial View để hiển thị bình luận -->
 <partial name="_CommentSection" model="Model.NewsArticleId" />
 
-<!-- Form thêm bình luận -->
-@* <hr />
-@if (User.Identity.IsAuthenticated)
-{
-    <form method="post" asp-action="AddComment">
-        @Html.AntiForgeryToken()
-        <input type="hidden" name="ArticleId" value="@Model.Id" />
-        <div class="form-group">
-            <label for="Content" class="text-purple">Thêm bình luận</label>
-            <textarea name="Content" class="form-control" rows="3" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-purple mt-2">Gửi bình luận</button>
-    </form>
-}
-else
-{
-    <p><em>Bạn cần <a asp-controller="Account" asp-action="Login">đăng nhập</a> để bình luận.</em></p>
-}
-
-<!-- Bảng người liên quan -->
-<h4 class="mt-5 text-purple">👥 Danh sách thành viên liên quan</h4>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>UserName</th>
-            <th>Vai trò</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var ua in Model.UserArticles)
-        {
-            <tr>
-                <td>@ua.UserName</td>
-                <td>@ua.RoleInArticle</td>
-            </tr>
-        }
-    </tbody>
-</table> *@
-
 <h4 class="text-purple mt-5">📰 Bài viết cùng chuyên mục</h4>
 <ul id="related-articles" class="list-unstyled ps-3">
     <li>Đang tải bài viết liên quan...</li>
 </ul>
-
+</div>
 @section Scripts {
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -264,45 +379,3 @@ else
 </script>
 
 
-
-
-@* @{
-    var articleId1 = Model.NewsArticleId;
-}
-
-@section Scripts {
-    <script>
-        const articleId1 = @articleId1;
-        const cookieKey = `ViewedArticle_${articleId}`;
-        const expireMinutes = 30;
-
-        function setCookie(name, value, minutes) {
-            const d = new Date();
-            d.setTime(d.getTime() + (minutes * 60 * 1000));
-            const expires = "expires=" + d.toUTCString();
-            document.cookie = `${name}=${value};${expires};path=/;SameSite=Lax;Secure`;
-        }
-
-
-        function getCookie(name) {
-            const value = `; ${document.cookie}`;
-            const parts = value.split(`; ${name}=`);
-            if (parts.length === 2) return parts.pop().split(';').shift();
-            return null;
-        }
-
-        // Chỉ gọi API tăng view nếu chưa xem
-        if (!getCookie(cookieKey)) {
-            fetch(`/api/news/${articleId}/increase-view`, {
-                method: 'POST'
-            }).then(res => {
-                if (res.ok) {
-                    setCookie(cookieKey, "true", expireMinutes);
-                    console.log("Tăng lượt xem bài viết");
-                }
-            }).catch(err => {
-                console.error("Lỗi khi tăng view:", err);
-            });
-        }
-    </script>
-} *@

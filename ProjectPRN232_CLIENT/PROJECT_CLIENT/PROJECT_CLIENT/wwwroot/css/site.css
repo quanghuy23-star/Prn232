@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -54,4 +54,111 @@ body {
 #related-articles a:hover {
     color: #6f42c1;
     text-decoration: underline;
+}
+/* Làm đẹp các nút trong navbar */
+.navbar-nav .nav-link {
+    padding: 8px 16px;
+    font-weight: 500;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+    .navbar-nav .nav-link:hover {
+        background-color: #f0f0f0;
+        border-radius: 6px;
+        color: #0056b3;
+    }
+
+/* Nút đăng xuất kiểu link nhưng có hover đẹp */
+.navbar-nav .btn-link.nav-link {
+    color: #333;
+    font-weight: 500;
+    text-decoration: none;
+    padding: 8px 16px;
+}
+
+    .navbar-nav .btn-link.nav-link:hover {
+        background-color: #ffecec;
+        color: #d40000;
+        border-radius: 6px;
+    }
+
+/* Chữ chào mừng */
+.navbar-nav .nav-link.welcome {
+    color: #28a745;
+    font-weight: 600;
+}
+/* Nút trong navbar có màu xanh */
+.navbar-nav .btn-green,
+.navbar-nav .btn-green:visited {
+    background-color: #198754; /* xanh Bootstrap */
+    color: white !important;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    transition: background-color 0.2s;
+    text-decoration: none;
+}
+
+    .navbar-nav .btn-green:hover {
+        background-color: #157347; /* xanh đậm hơn khi hover */
+        color: #fff !important;
+    }
+
+/* Nút đăng xuất cũng giống nút bình thường */
+.navbar-nav form .btn-green {
+    background-color: #198754;
+    color: white !important;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+    .navbar-nav form .btn-green:hover {
+        background-color: #157347;
+    }
+
+/* Bình luận - form gửi mới */
+form textarea {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    resize: vertical;
+    font-size: 14px;
+    font-family: inherit;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Nút gửi bình luận */
+form button[type="submit"] {
+    background-color: #0066cc;
+    color: #fff;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+    form button[type="submit"]:hover {
+        background-color: #005bb5;
+    }
+
+/* Tiêu đề bình luận */
+h3 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 12px;
+}
+
+/* Dòng phân cách */
+hr {
+    border: none;
+    border-top: 1px solid #ccc;
+    margin: 16px 0;
 }

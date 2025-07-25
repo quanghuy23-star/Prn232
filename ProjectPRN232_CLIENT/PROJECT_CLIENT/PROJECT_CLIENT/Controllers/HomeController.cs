@@ -12,7 +12,7 @@ namespace PROJECT_CLIENT.Controllers
     {
         private readonly BaseService _baseService = new();
 
-        public async Task<IActionResult> Index(string? categoryName, string? searchTitle, string? time)
+        public async Task<IActionResult> Index(string? categoryName, string? searchTitle, string? time, int page = 1, int pageSize = 8)
         {
             var articles = await _baseService.GetData<IEnumerable<ArticleDTO>>("News");
 
@@ -33,10 +33,15 @@ namespace PROJECT_CLIENT.Controllers
                     _ => articles
                 };
             }
+            // Phân trang
+            int totalItems = articles.Count();
+            var pagedArticles = articles.Skip((page - 1) * pageSize).Take(pageSize).ToList();
 
+            ViewBag.TotalPages = (int)Math.Ceiling((double)totalItems / pageSize);
+            ViewBag.CurrentPage = page;
             ViewBag.Categories = await _baseService.GetData<IEnumerable<CategoryDTO>>("News/active-categories");
 
-            return View(articles);
+            return View(pagedArticles);
         }
         [Route("NewDetails/{id}")]
         public async Task<IActionResult> Details(int id,string? slug)
